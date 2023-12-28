@@ -25,6 +25,7 @@
         <property name="hibernate.dialect">org.hibernate.community.dialect.SQLiteDialect</property>
         
         <!-- Mapping files -->
+        <mapping class="pwr.ite.bedrylo.model.Commodity"/>
         <mapping class="pwr.ite.bedrylo.model.User"/>
 
 

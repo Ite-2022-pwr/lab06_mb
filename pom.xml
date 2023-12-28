@@ -11,7 +11,7 @@
     <modules>
         <module>data</module>
         <module>gui</module>
-        <module>KeeperServer</module>
+        <module>keeperServer</module>
     </modules>
     <dependencies>
         <dependency>

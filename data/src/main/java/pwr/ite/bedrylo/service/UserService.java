@@ -1,9 +1,19 @@
 package pwr.ite.bedrylo.service;
 
-import pwr.ite.bedrylo.dto.UserDto;
 import pwr.ite.bedrylo.model.User;
 
+import pwr.ite.bedrylo.dto.UserDto;
+
 public class UserService {
+    
+    private static UserService instance = null;
+
+    public static UserService getInstance(){
+        if (instance == null) {
+        instance = new UserService();
+        }
+        return instance;
+    }
     
     public User createUserFromDto(UserDto userDto) {
         User user = new User();
@@ -12,5 +22,9 @@ public class UserService {
         user.setRole(userDto.getRole());
         return user;
     }
-    
+
+
+    public UserDto createDtoFromUser(User user) {
+        return new UserDto(user.getPort(), user.getHost(), user.getRole(), user.isBusy());
+    }
 }

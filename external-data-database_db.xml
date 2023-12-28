@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
   <object-set>
-    <schema path="main">
-      <view name="alles" query="SELECT * FROM main.users;"/>
-    </schema>
+    <root path="">
+      <view name="allCommoditiesView" query="SELECT * FROM main.commodities;"/>
+      <view name="allUsersView" query="SELECT * FROM main.users;"/>
+    </root>
   </object-set>
 </data>

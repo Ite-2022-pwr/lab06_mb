@@ -3,31 +3,35 @@ package pwr.ite.bedrylo.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Data;
-import org.hibernate.annotations.UuidGenerator;
+import lombok.Getter;
+import lombok.Setter;
 import pwr.ite.bedrylo.model.enums.Role;
 
-import java.util.UUID;
-
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
-public class User {
-    
-    @Id
-    @UuidGenerator
-    @Column(name = "id", unique = true, nullable = false)
-    private UUID uuid;
-    
+public class User extends BaseEntity {
+
+
     @Column(name = "port", nullable = false)
     private int port;
-    
+
     @Column(name = "host", nullable = false)
     private String host;
-    
+
     @Column(name = "role", nullable = false)
     private Role role;
-    
+
+    @Column(name = "busy", nullable = false)
+    private boolean busy;
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("uuid: ").append(getUuid()).append(", host:").append(getHost()).append(", port:").append(getPort()).append(", role:").append(getRole().toString()).append(", busy:").append(isBusy()).append(" ");
+        return stringBuilder.toString();
+    }
+
 }

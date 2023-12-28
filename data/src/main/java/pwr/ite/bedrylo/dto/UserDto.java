@@ -1,22 +1,17 @@
 package pwr.ite.bedrylo.dto;
 
-import lombok.Data;
+import lombok.Value;
 import pwr.ite.bedrylo.model.enums.Role;
 
-import java.util.UUID;
+import java.io.Serializable;
 
-@Data
-public class UserDto {
-    
-    private UUID uuid;
-    private int port;
-    private String host;
-    private Role role;
-    
-    public UserDto(int port, String host, Role role) {
-        this.port = port;
-        this.host = host;
-        this.role = role;
-    }
-    
+/**
+ * DTO for {@link pwr.ite.bedrylo.model.User}
+ */
+@Value
+public class UserDto implements Serializable {
+    int port;
+    String host;
+    Role role;
+    boolean busy;
 }

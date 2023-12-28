@@ -3,15 +3,22 @@ package pwr.ite.bedrylo.repository;
 import pwr.ite.bedrylo.model.User;
 import pwr.ite.bedrylo.model.enums.Role;
 
+import java.util.List;
+import java.util.UUID;
+
 public interface UserRepository {
     User save(User user);
     
-    User findByPort(int port);
+    User findByUuid(UUID uuid);
     
-    User findByHost(String host);
+    List<User> findByPort(int port);
+
+    List<User> findByHost(String host);
+
+    List<User> findByHostAndPort(String host, int port);
+
+    List<User> findByRole(Role role);
     
-    User findByRole(Role role);
-    
-    void delete(User user);
+    void delete(UUID uuid);
     
 }
