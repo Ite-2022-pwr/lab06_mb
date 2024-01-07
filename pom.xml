@@ -10,8 +10,10 @@
     <packaging>pom</packaging>
     <modules>
         <module>data</module>
-        <module>gui</module>
-        <module>keeperServer</module>
+        <module>keeper</module>
+        <module>customer</module>
+        <module>deliverer</module>
+        <module>seller</module>
     </modules>
     <dependencies>
         <dependency>

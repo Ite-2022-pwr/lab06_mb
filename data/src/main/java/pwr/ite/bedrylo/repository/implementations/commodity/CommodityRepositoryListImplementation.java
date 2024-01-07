@@ -1,7 +1,6 @@
 package pwr.ite.bedrylo.repository.implementations.commodity;
 
-import pwr.ite.bedrylo.model.Commodity;
-import pwr.ite.bedrylo.model.User;
+import pwr.ite.bedrylo.model.data.Commodity;
 import pwr.ite.bedrylo.repository.CommodityRepository;
 
 import java.util.ArrayList;

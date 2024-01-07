@@ -9,13 +9,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import pwr.ite.bedrylo.model.User;
-import pwr.ite.bedrylo.model.enums.Role;
+import pwr.ite.bedrylo.model.data.User;
+import pwr.ite.bedrylo.model.data.enums.Role;
 import pwr.ite.bedrylo.repository.UserRepository;
 import pwr.ite.bedrylo.service.UserService;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 

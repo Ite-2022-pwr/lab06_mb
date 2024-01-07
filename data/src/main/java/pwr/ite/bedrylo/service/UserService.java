@@ -1,6 +1,6 @@
 package pwr.ite.bedrylo.service;
 
-import pwr.ite.bedrylo.model.User;
+import pwr.ite.bedrylo.model.data.User;
 
 import pwr.ite.bedrylo.dto.UserDto;
 

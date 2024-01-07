@@ -1,6 +1,6 @@
 package pwr.ite.bedrylo.repository;
 
-import pwr.ite.bedrylo.model.Commodity;
+import pwr.ite.bedrylo.model.data.Commodity;
 
 import java.util.List;
 import java.util.UUID;

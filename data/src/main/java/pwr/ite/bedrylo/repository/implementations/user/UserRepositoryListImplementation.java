@@ -1,7 +1,7 @@
 package pwr.ite.bedrylo.repository.implementations.user;
 
-import pwr.ite.bedrylo.model.User;
-import pwr.ite.bedrylo.model.enums.Role;
+import pwr.ite.bedrylo.model.data.User;
+import pwr.ite.bedrylo.model.data.enums.Role;
 import pwr.ite.bedrylo.repository.UserRepository;
 
 import java.util.ArrayList;
