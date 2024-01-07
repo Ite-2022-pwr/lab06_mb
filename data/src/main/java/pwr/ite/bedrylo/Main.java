@@ -1,6 +1,7 @@
 package pwr.ite.bedrylo;
 
 import pwr.ite.bedrylo.dto.UserDto;
+import pwr.ite.bedrylo.model.data.User;
 import pwr.ite.bedrylo.model.data.enums.Role;
 import pwr.ite.bedrylo.model.request.Request;
 import pwr.ite.bedrylo.model.request.enums.CustomerInterfaceActions;
@@ -15,18 +16,10 @@ public class Main {
 
         UserRepository userRepository = new UserRepositoryJPAImplementation();
         
-        userRepository.save(userService.createUserFromDto(new UserDto(2137,"dupa", Role.DELIVERER, true)));
-        
-        
-        System.out.println();
+        User testowy = userRepository.save(userService.createUserFromDto(new UserDto(420,"penis", Role.DELIVERER, true)));
 
-        Request test = new Request(CustomerInterfaceActions.DELIVERER_PUT_ORDER, null);
-
-        System.out.println(test);
+        System.out.println(userRepository.findByPort(2137));
         
-        
-        System.out.println(userRepository.findByHostAndPort("dupa",2137));
-        System.out.println(userRepository.findByHostAndPort("chuj",2137));
 
 
     }

@@ -1,9 +1,7 @@
 package pwr.ite.bedrylo.model.data;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import pwr.ite.bedrylo.model.data.enums.Role;
@@ -12,6 +10,14 @@ import pwr.ite.bedrylo.model.data.enums.Role;
 @Setter
 @Entity
 @Table(name = "users")
+@NamedQueries({
+        @NamedQuery(name = "User.FindByPort", query = "select u from User u where u.port = :port"),
+        @NamedQuery(name = "User.FindByHost", query = "select u from User u where u.host = :host"),
+        @NamedQuery(name = "User.FindByHostAndPort", query = "select u from User u where u.host = :host and u.port = :port"),
+        @NamedQuery(name = "User.FindByRole", query = "select u from User u where u.role = :role"),
+        @NamedQuery(name = "User.FindByBusy", query = "select u from User u where u.busy = :busy"),
+        @NamedQuery(name = "User.Delete", query = "delete from User u where u.uuid = :uuid")
+})
 public class User extends BaseEntity {
 
 

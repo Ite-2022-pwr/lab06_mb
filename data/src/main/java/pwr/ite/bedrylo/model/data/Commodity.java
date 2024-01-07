@@ -1,9 +1,7 @@
 package pwr.ite.bedrylo.model.data;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +11,11 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "commodities")
+@NamedQueries({
+        @NamedQuery(name = "Commodity.FindByName", query = "select c from Commodity c where c.name = :name"),
+        @NamedQuery(name = "Commodity.FindByUserUuid", query = "select c from Commodity c where c.userUuid = :userUuid"),
+        @NamedQuery(name = "Commodity.Delete", query = "delete from Commodity c where c.uuid = :uuid")
+})
 public class Commodity extends BaseEntity{
     
     @Column(name = "name", nullable = false)

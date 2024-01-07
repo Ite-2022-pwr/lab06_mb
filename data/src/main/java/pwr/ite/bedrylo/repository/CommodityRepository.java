@@ -10,6 +10,8 @@ public interface CommodityRepository {
     Commodity save(Commodity commodity);
     
     List<Commodity> findByName(String name);
+
+    List<Commodity> findByUserUuid(UUID userUuid);
     
     Commodity findByUuid(UUID uuid);
     

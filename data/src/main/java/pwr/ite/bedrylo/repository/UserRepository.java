@@ -19,6 +19,8 @@ public interface UserRepository {
 
     List<User> findByRole(Role role);
     
+    List<User> findByBusyStatus(Boolean busy);
+    
     void delete(UUID uuid);
     
 }

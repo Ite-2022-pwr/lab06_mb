@@ -26,6 +26,15 @@ public class CommodityRepositoryListImplementation implements CommodityRepositor
         return result;
     }
 
+    @Override
+    public List<Commodity> findByUserUuid(UUID userUuid) {
+        List<Commodity> result = commodities.stream().filter(o-> Objects.equals(o.getUserUuid(), userUuid)).toList();
+        if (result.isEmpty()) {
+            return null;
+        }
+        return result;
+    }
+
 
     @Override
     public Commodity findByUuid(UUID uuid){

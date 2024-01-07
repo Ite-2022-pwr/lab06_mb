@@ -8,6 +8,8 @@ module data {
     
     opens pwr.ite.bedrylo.model.data;
     opens pwr.ite.bedrylo.model.data.enums;
+    opens pwr.ite.bedrylo.model.request.enums;
+    opens pwr.ite.bedrylo.model.request;
     
     exports pwr.ite.bedrylo.dto;
     exports pwr.ite.bedrylo.model.data.enums;
