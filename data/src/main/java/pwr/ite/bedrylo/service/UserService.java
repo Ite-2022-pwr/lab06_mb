@@ -20,6 +20,7 @@ public class UserService {
         user.setPort(userDto.getPort());
         user.setHost(userDto.getHost());
         user.setRole(userDto.getRole());
+        user.setBusy(userDto.isBusy());
         return user;
     }
 

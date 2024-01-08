@@ -1,7 +1,8 @@
-module pwr.ite.bedrylo {
+module pwr.ite.bedrylo.seller {
     requires javafx.controls;
     requires javafx.fxml;
 
-    opens pwr.ite.bedrylo to javafx.fxml;
-    exports pwr.ite.bedrylo;
+
+    opens pwr.ite.bedrylo.seller to javafx.fxml;
+    exports pwr.ite.bedrylo.seller;
 }

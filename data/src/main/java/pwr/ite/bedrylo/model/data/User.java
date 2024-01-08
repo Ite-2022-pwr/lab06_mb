@@ -16,7 +16,8 @@ import pwr.ite.bedrylo.model.data.enums.Role;
         @NamedQuery(name = "User.FindByHostAndPort", query = "select u from User u where u.host = :host and u.port = :port"),
         @NamedQuery(name = "User.FindByRole", query = "select u from User u where u.role = :role"),
         @NamedQuery(name = "User.FindByBusy", query = "select u from User u where u.busy = :busy"),
-        @NamedQuery(name = "User.Delete", query = "delete from User u where u.uuid = :uuid")
+        @NamedQuery(name = "User.Delete", query = "delete from User u where u.uuid = :uuid"),
+        @NamedQuery(name = "User.UpdateBusyByUuid", query = "update User u set u.busy = :busy where u.uuid = :uuid", lockMode = LockModeType.PESSIMISTIC_READ)
 })
 public class User extends BaseEntity {
 

@@ -11,9 +11,10 @@
     <modules>
         <module>data</module>
         <module>keeper</module>
-        <module>customer</module>
         <module>deliverer</module>
         <module>seller</module>
+        <module>serverLogic</module>
+        <module>customer</module>
     </modules>
     <dependencies>
         <dependency>

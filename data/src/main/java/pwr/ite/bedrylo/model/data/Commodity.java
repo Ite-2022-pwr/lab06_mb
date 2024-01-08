@@ -14,7 +14,8 @@ import java.util.UUID;
 @NamedQueries({
         @NamedQuery(name = "Commodity.FindByName", query = "select c from Commodity c where c.name = :name"),
         @NamedQuery(name = "Commodity.FindByUserUuid", query = "select c from Commodity c where c.userUuid = :userUuid"),
-        @NamedQuery(name = "Commodity.Delete", query = "delete from Commodity c where c.uuid = :uuid")
+        @NamedQuery(name = "Commodity.Delete", query = "delete from Commodity c where c.uuid = :uuid"),
+        @NamedQuery(name = "Commodity.UpdateUserUuidByUuid", query = "update Commodity c set c.userUuid = :userUuid where c.uuid = :uuid")
 })
 public class Commodity extends BaseEntity{
     

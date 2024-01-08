@@ -15,6 +15,8 @@ public interface CommodityRepository {
     
     Commodity findByUuid(UUID uuid);
     
+    Commodity upadteUserUuidByUuid(UUID uuid, UUID userUuid);
+    
     void delete(UUID uuid);
     
 }

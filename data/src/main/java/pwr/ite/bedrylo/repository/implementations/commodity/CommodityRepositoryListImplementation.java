@@ -42,6 +42,16 @@ public class CommodityRepositoryListImplementation implements CommodityRepositor
     }
 
     @Override
+    public Commodity upadteUserUuidByUuid(UUID uuid, UUID userUuid) {
+        Commodity commodity = commodities.stream().filter(o->Objects.equals(o.getUuid(), uuid)).findFirst().orElse(null);
+        if (commodity == null) {
+            return null;
+        }
+        commodity.setUserUuid(userUuid);
+        return commodity;
+    }
+
+    @Override
     public void delete(UUID uuid) {
         commodities =(ArrayList<Commodity>) commodities.stream().filter(o->!o.getUuid().equals(uuid)).toList();
     }

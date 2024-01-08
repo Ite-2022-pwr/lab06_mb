@@ -69,6 +69,14 @@ public class UserRepositoryListImplementation implements UserRepository {
     }
 
     @Override
+    public User updateBusyByUuid(UUID uuid, Boolean busy) {
+        User user = users.stream().filter(o->Objects.equals(o.getUuid(), uuid)).findFirst().orElse(null);
+        if(user != null)
+            user.setBusy(busy);
+        return user;
+    }
+
+    @Override
     public void delete(UUID uuid) {
         users =(ArrayList<User>) users.stream().filter(o->!o.getUuid().equals(uuid)).toList();
     }

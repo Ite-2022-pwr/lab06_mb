@@ -9,6 +9,8 @@ import pwr.ite.bedrylo.repository.UserRepository;
 import pwr.ite.bedrylo.repository.implementations.user.UserRepositoryJPAImplementation;
 import pwr.ite.bedrylo.service.UserService;
 
+import java.util.UUID;
+
 public class Main {
     public static void main(String[] args) { // ! upewnij się że to wgl o to chodziXD
 
@@ -16,9 +18,17 @@ public class Main {
 
         UserRepository userRepository = new UserRepositoryJPAImplementation();
         
-        User testowy = userRepository.save(userService.createUserFromDto(new UserDto(420,"penis", Role.DELIVERER, true)));
+        User testowy = userRepository.save(userService.createUserFromDto(new UserDto(2137,"test", Role.DELIVERER, false)));
 
-        System.out.println(userRepository.findByPort(2137));
+        UUID test = testowy.getUuid();
+        
+        testowy = null;
+        
+        System.out.println(userRepository.findByUuid(test));
+        
+        userRepository.updateBusyByUuid(test, true);
+
+        System.out.println(userRepository.findByUuid(test));
         
 
 

@@ -21,6 +21,8 @@ public interface UserRepository {
     
     List<User> findByBusyStatus(Boolean busy);
     
+    User updateBusyByUuid(UUID uuid, Boolean busy);
+    
     void delete(UUID uuid);
     
 }

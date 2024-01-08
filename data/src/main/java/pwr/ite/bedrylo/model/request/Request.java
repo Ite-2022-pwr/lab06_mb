@@ -1,8 +1,6 @@
 package pwr.ite.bedrylo.model.request;
 
 import lombok.Data;
-
-import java.io.Serial;
 import java.io.Serializable;
 
 @Data
