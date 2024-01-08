@@ -18,10 +18,11 @@ public class Util {
 
     public static ByteBuffer serialize(Object object) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream(65536);
-
         try (ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+            System.out.println(object);
             oos.writeObject(object);
             oos.flush();
+            oos.close();
             byte[] bytes = bos.toByteArray();
             return ByteBuffer.wrap(bytes);
         } catch (IOException e) {

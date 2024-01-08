@@ -1,6 +1,8 @@
 package pwr.ite.bedrylo.dataModule.model.request.enums;
 
-public enum DelivererInterfaceActions {
+import java.io.Serializable;
+
+public enum DelivererInterfaceActions implements Serializable {
     CUSTOMER_RETURN_ORDER,
     KEEPER_GET_RESPONSE
 }

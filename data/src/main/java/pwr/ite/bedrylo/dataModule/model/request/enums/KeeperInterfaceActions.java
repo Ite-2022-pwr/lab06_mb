@@ -1,6 +1,8 @@
 package pwr.ite.bedrylo.dataModule.model.request.enums;
 
-public enum KeeperInterfaceActions {
+import java.io.Serializable;
+
+public enum KeeperInterfaceActions implements Serializable {
     REGISTER,
     UNREGISTER,
     GET_INFO,

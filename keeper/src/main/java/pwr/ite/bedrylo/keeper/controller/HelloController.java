@@ -13,6 +13,9 @@ public class HelloController {
     
     @FXML
     private Label welcomeText;
+    
+    
+    
 
     @FXML
     protected void onHelloButtonClick() {
@@ -24,6 +27,6 @@ public class HelloController {
                 throw new RuntimeException(e);
             }
         });
-        welcomeText.setText("server wstał");
+        welcomeText.setText("serwer wstał");
     }
 }

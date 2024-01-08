@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import pwr.ite.bedrylo.dataModule.model.data.enums.Role;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @Entity

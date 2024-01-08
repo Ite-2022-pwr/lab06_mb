@@ -31,7 +31,7 @@ public class BaseServer implements Runnable {
         serverSocket.bind(new InetSocketAddress(this.host, this.port));
         serverSocket.configureBlocking(false);
         serverSocket.register(selector, SelectionKey.OP_ACCEPT);
-        ByteBuffer buffer = ByteBuffer.allocate(256);
+        ByteBuffer buffer = ByteBuffer.allocate(65536);
 
         System.out.println("gówno ożyło");
 

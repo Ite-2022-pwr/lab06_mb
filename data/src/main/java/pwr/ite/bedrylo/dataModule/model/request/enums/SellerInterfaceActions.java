@@ -1,6 +1,8 @@
 package pwr.ite.bedrylo.dataModule.model.request.enums;
 
-public enum SellerInterfaceActions {
+import java.io.Serializable;
+
+public enum SellerInterfaceActions implements Serializable {
     CLIENT_ACCEPT_ORDER,
     KEEPER_GET_RESPONSE
 }
