@@ -3,11 +3,9 @@ package pwr.ite.bedrylo.keeper.controller;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import pwr.ite.bedrylo.BaseServer;
-import pwr.ite.bedrylo.RequestHandler;
+import pwr.ite.bedrylo.networking.BaseServer;
+import pwr.ite.bedrylo.networking.RequestHandler;
 import pwr.ite.bedrylo.keeper.logic.KeeperLogic;
-
-import java.io.IOException;
 
 public class HelloController {
     

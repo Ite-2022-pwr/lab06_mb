@@ -1,7 +1,7 @@
 module pwr.ite.bedrylo.keeper {
     requires javafx.controls;
     requires javafx.fxml;
-    requires serverLogic;
+    requires networkingLogic;
     requires data;
     requires static lombok;
 

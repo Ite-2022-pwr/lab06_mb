@@ -13,7 +13,7 @@
         <module>keeper</module>
         <module>deliverer</module>
         <module>seller</module>
-        <module>serverLogic</module>
+        <module>networkingLogic</module>
         <module>customer</module>
     </modules>
     <dependencies>

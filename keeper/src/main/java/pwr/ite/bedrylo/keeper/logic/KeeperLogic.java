@@ -1,12 +1,9 @@
 package pwr.ite.bedrylo.keeper.logic;
 
 import lombok.SneakyThrows;
-import pwr.ite.bedrylo.RequestHandler;
-import pwr.ite.bedrylo.Util;
-import pwr.ite.bedrylo.model.request.Request;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import pwr.ite.bedrylo.networking.RequestHandler;
+import pwr.ite.bedrylo.networking.Util;
+import pwr.ite.bedrylo.dataModule.model.request.Request;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;

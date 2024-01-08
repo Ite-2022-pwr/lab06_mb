@@ -6,15 +6,15 @@ module data {
     requires java.naming;
     
     
-    opens pwr.ite.bedrylo.model.data;
-    opens pwr.ite.bedrylo.model.data.enums;
-    opens pwr.ite.bedrylo.model.request.enums;
-    opens pwr.ite.bedrylo.model.request;
+    opens pwr.ite.bedrylo.dataModule.model.data;
+    opens pwr.ite.bedrylo.dataModule.model.data.enums;
+    opens pwr.ite.bedrylo.dataModule.model.request.enums;
+    opens pwr.ite.bedrylo.dataModule.model.request;
     
-    exports pwr.ite.bedrylo.dto;
-    exports pwr.ite.bedrylo.model.data.enums;
-    exports pwr.ite.bedrylo.model.request.enums;
-    exports pwr.ite.bedrylo.model.request;
-    exports pwr.ite.bedrylo.model.data;
+    exports pwr.ite.bedrylo.dataModule.dto;
+    exports pwr.ite.bedrylo.dataModule.model.data.enums;
+    exports pwr.ite.bedrylo.dataModule.model.request.enums;
+    exports pwr.ite.bedrylo.dataModule.model.request;
+    exports pwr.ite.bedrylo.dataModule.model.data;
 
 }
