@@ -20,7 +20,7 @@ public class HelloController {
 
     @FXML
     protected void onHelloButtonClick() {
-        UserDto userDto = new UserDto(420,"snoopdog", Role.CLIENT, true);
+        UserDto userDto = new UserDto(69,"testowykolega", Role.CLIENT);
         BaseClient baseClient = new BaseClient("localhost",2137);
         Platform.runLater(()->{
             try {

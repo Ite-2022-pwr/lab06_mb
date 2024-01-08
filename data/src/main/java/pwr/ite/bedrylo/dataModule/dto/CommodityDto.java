@@ -15,4 +15,5 @@ import java.util.UUID;
 public class CommodityDto implements Serializable {
     private String name;
     private UUID userUuid;
+    private UUID uuid;
 }

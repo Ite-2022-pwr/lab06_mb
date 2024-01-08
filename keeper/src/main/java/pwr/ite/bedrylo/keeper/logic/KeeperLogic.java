@@ -42,13 +42,24 @@ public class KeeperLogic implements RequestHandler {
             Request request =(Request) Util.fromBuffer(buffer);
             System.out.println(request);
             buffer.flip();
-            System.out.println(request.getData());
             switch (request.getAction().toString()){
                 case "REGISTER":
                     register((UserDto) request.getData());
                     break;
                 case "UNREGISTER":
                     System.out.println("chuj");
+                    break;
+                case "GET_INFO":
+                    break;
+                case "DELIVERER_GET_ORDER":
+                    break;
+                case "DELIVERER_RETURN_ORDER":
+                    break;
+                case "CUSTOMER_GET_OFFER":
+                    break;
+                case "CUSTOMER_PUT_ORDER":
+                    break;
+                case "SELLER_RETURN_ORDER":
                     break;
                 default:
                     System.out.println("nieznana akcja");

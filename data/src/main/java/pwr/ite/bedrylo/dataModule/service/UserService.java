@@ -20,12 +20,19 @@ public class UserService {
         user.setPort(userDto.getPort());
         user.setHost(userDto.getHost());
         user.setRole(userDto.getRole());
-        user.setBusy(userDto.isBusy());
+        if (null != userDto.getBusy()){
+            user.setBusy(userDto.getBusy());
+        } else {
+            user.setBusy(false);
+        }
+        if (userDto.getUuid()!=null) {
+            user.setUuid(userDto.getUuid());
+        }
         return user;
     }
 
 
     public UserDto createDtoFromUser(User user) {
-        return new UserDto(user.getPort(), user.getHost(), user.getRole(), user.isBusy());
+        return new UserDto(user.getPort(), user.getHost(), user.getRole(), user.isBusy(), user.getUuid());
     }
 }
