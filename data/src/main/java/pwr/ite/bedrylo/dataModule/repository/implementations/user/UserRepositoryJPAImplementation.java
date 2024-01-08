@@ -13,20 +13,20 @@ import java.util.UUID;
 
 public class UserRepositoryJPAImplementation implements UserRepository {
     private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("database");
-    
+
     //private EntityManager entityManager = entityManagerFactory.createEntityManager();
     // TODO refactor this shit
-    
+
     @Override
     public User save(User user) {
-        try{
+        try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
             entityManager.persist(user);
             entityManager.getTransaction().commit();
             entityManager.close();
             return user;
-        }catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
         return null;
@@ -35,16 +35,16 @@ public class UserRepositoryJPAImplementation implements UserRepository {
 
 
     @Override
-    public User findByUuid(UUID uuid){
+    public User findByUuid(UUID uuid) {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
             entityManager.flush();
-            User user = entityManager.find(User.class,uuid);
+            User user = entityManager.find(User.class, uuid);
             entityManager.getTransaction().commit();
             entityManager.close();
             return user;
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
         return null;
@@ -61,7 +61,7 @@ public class UserRepositoryJPAImplementation implements UserRepository {
             entityManager.getTransaction().commit();
             entityManager.close();
             return userList;
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
         return null;
@@ -78,14 +78,14 @@ public class UserRepositoryJPAImplementation implements UserRepository {
             entityManager.getTransaction().commit();
             entityManager.close();
             return userList;
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
         return null;
     }
-    
+
     @Override
-    public List<User> findByHostAndPort(String host, int port){
+    public List<User> findByHostAndPort(String host, int port) {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
@@ -96,7 +96,7 @@ public class UserRepositoryJPAImplementation implements UserRepository {
             entityManager.getTransaction().commit();
             entityManager.close();
             return userList;
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
         return null;
@@ -113,14 +113,14 @@ public class UserRepositoryJPAImplementation implements UserRepository {
             entityManager.getTransaction().commit();
             entityManager.close();
             return userList;
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
         return null;
     }
-    
+
     @Override
-    public List<User> findByBusyStatus(Boolean busy){
+    public List<User> findByBusyStatus(Boolean busy) {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
@@ -130,7 +130,7 @@ public class UserRepositoryJPAImplementation implements UserRepository {
             entityManager.getTransaction().commit();
             entityManager.close();
             return userList;
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
         return null;
@@ -148,12 +148,12 @@ public class UserRepositoryJPAImplementation implements UserRepository {
             entityManager.flush();
             entityManager.getTransaction().commit();
             entityManager.close();
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
-        try{
+        try {
             return findByUuid(uuid);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
         return null;
@@ -167,7 +167,7 @@ public class UserRepositoryJPAImplementation implements UserRepository {
             entityManager.createNamedQuery("User.Delete", User.class)
                     .setParameter("uuid", uuid);
             entityManager.close();
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
     }

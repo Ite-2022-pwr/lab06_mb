@@ -17,11 +17,11 @@ import java.util.UUID;
         @NamedQuery(name = "Commodity.Delete", query = "delete from Commodity c where c.uuid = :uuid"),
         @NamedQuery(name = "Commodity.UpdateUserUuidByUuid", query = "update Commodity c set c.userUuid = :userUuid where c.uuid = :uuid")
 })
-public class Commodity extends BaseEntity{
-    
+public class Commodity extends BaseEntity {
+
     @Column(name = "name", nullable = false)
     private String name;
-    
+
     @Column(name = "owner")
     private UUID userUuid;
 }

@@ -17,8 +17,8 @@ public class UserDto implements Serializable {
     Role role;
     Boolean busy;
     UUID uuid;
-    
-    public UserDto(int port, String host, Role role, Boolean busy, UUID uuid){
+
+    public UserDto(int port, String host, Role role, Boolean busy, UUID uuid) {
         this.port = port;
         this.host = host;
         this.role = role;
@@ -26,7 +26,7 @@ public class UserDto implements Serializable {
         this.uuid = uuid;
     }
 
-    public UserDto(int port, String host, Role role){
+    public UserDto(int port, String host, Role role) {
         this.port = port;
         this.host = host;
         this.role = role;

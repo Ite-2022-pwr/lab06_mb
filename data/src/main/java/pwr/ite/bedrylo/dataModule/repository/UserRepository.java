@@ -8,9 +8,9 @@ import java.util.UUID;
 
 public interface UserRepository {
     User save(User user);
-    
+
     User findByUuid(UUID uuid);
-    
+
     List<User> findByPort(int port);
 
     List<User> findByHost(String host);
@@ -18,11 +18,11 @@ public interface UserRepository {
     List<User> findByHostAndPort(String host, int port);
 
     List<User> findByRole(Role role);
-    
+
     List<User> findByBusyStatus(Boolean busy);
-    
+
     User updateBusyByUuid(UUID uuid, Boolean busy);
-    
+
     void delete(UUID uuid);
-    
+
 }

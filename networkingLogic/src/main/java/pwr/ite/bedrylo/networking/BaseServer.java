@@ -11,20 +11,28 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class BaseServer implements Runnable {
-    
+
     private Integer port;
     private String host;
     private RequestHandler requestHandler;
     private Thread thread;
     private String name;
-    
-    public BaseServer(Integer port, String host, RequestHandler requestHandler){
+
+    public BaseServer(Integer port, String host, RequestHandler requestHandler) {
         this.port = port;
         this.host = host;
-        this.name = host +port.toString();
+        this.name = host + port.toString();
         this.requestHandler = requestHandler;
     }
-    
+
+    private static void register(Selector selector, ServerSocketChannel serverSocket)
+            throws IOException {
+
+        SocketChannel client = serverSocket.accept();
+        client.configureBlocking(false);
+        client.register(selector, SelectionKey.OP_READ);
+    }
+
     public void startServer() throws IOException {
         Selector selector = Selector.open();
         ServerSocketChannel serverSocket = ServerSocketChannel.open();
@@ -53,18 +61,9 @@ public class BaseServer implements Runnable {
                 iter.remove();
             }
         }
-        
-        
+
+
     }
-
-    private static void register(Selector selector, ServerSocketChannel serverSocket)
-            throws IOException {
-
-        SocketChannel client = serverSocket.accept();
-        client.configureBlocking(false);
-        client.register(selector, SelectionKey.OP_READ);
-    }
-
 
     @Override
     public void run() {

@@ -13,7 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class BaseEntity {
-    
+
     @Id
     @UuidGenerator
     @Column(name = "uuid", unique = true, nullable = false)

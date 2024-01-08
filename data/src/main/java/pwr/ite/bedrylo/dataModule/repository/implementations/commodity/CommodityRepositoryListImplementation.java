@@ -9,8 +9,9 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class CommodityRepositoryListImplementation implements CommodityRepository {
-    
+
     private static List<Commodity> commodities = new ArrayList<>();
+
     @Override
     public Commodity save(Commodity commodity) {
         commodities.add(commodity);
@@ -19,7 +20,7 @@ public class CommodityRepositoryListImplementation implements CommodityRepositor
 
     @Override
     public List<Commodity> findByName(String name) {
-        List<Commodity> result = commodities.stream().filter(o-> Objects.equals(o.getName(), name)).toList();
+        List<Commodity> result = commodities.stream().filter(o -> Objects.equals(o.getName(), name)).toList();
         if (result.isEmpty()) {
             return null;
         }
@@ -28,7 +29,7 @@ public class CommodityRepositoryListImplementation implements CommodityRepositor
 
     @Override
     public List<Commodity> findByUserUuid(UUID userUuid) {
-        List<Commodity> result = commodities.stream().filter(o-> Objects.equals(o.getUserUuid(), userUuid)).toList();
+        List<Commodity> result = commodities.stream().filter(o -> Objects.equals(o.getUserUuid(), userUuid)).toList();
         if (result.isEmpty()) {
             return null;
         }
@@ -37,13 +38,13 @@ public class CommodityRepositoryListImplementation implements CommodityRepositor
 
 
     @Override
-    public Commodity findByUuid(UUID uuid){
-        return commodities.stream().filter(o->Objects.equals(o.getUuid(), uuid)).findFirst().orElse(null);
+    public Commodity findByUuid(UUID uuid) {
+        return commodities.stream().filter(o -> Objects.equals(o.getUuid(), uuid)).findFirst().orElse(null);
     }
 
     @Override
     public Commodity upadteUserUuidByUuid(UUID uuid, UUID userUuid) {
-        Commodity commodity = commodities.stream().filter(o->Objects.equals(o.getUuid(), uuid)).findFirst().orElse(null);
+        Commodity commodity = commodities.stream().filter(o -> Objects.equals(o.getUuid(), uuid)).findFirst().orElse(null);
         if (commodity == null) {
             return null;
         }
@@ -53,6 +54,6 @@ public class CommodityRepositoryListImplementation implements CommodityRepositor
 
     @Override
     public void delete(UUID uuid) {
-        commodities =(ArrayList<Commodity>) commodities.stream().filter(o->!o.getUuid().equals(uuid)).toList();
+        commodities = (ArrayList<Commodity>) commodities.stream().filter(o -> !o.getUuid().equals(uuid)).toList();
     }
 }

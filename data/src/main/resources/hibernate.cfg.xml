@@ -17,13 +17,13 @@
 
         <!-- Outputs the SQL queries, should be disabled in Production -->
         <property name="hibernate.show_sql">true</property>
-        
+
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- Dialect is required to let Hibernate know the Database Type, MySQL, Oracle etc
             Hibernate 4 automatically figure out Dialect from Database Connection Metadata -->
         <property name="hibernate.dialect">org.hibernate.community.dialect.SQLiteDialect</property>
-        
+
         <!-- Mapping files -->
         <mapping class="pwr.ite.bedrylo.model.data.Commodity"/>
         <mapping class="pwr.ite.bedrylo.model.data.User"/>

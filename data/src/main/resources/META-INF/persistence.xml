@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+>
     <persistence-unit name="database" transaction-type="RESOURCE_LOCAL">
         <class>pwr.ite.bedrylo.model.data.User</class>
         <class>pwr.ite.bedrylo.model.data.Commodity</class>

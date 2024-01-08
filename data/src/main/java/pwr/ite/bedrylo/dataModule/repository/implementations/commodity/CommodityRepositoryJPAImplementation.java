@@ -16,14 +16,14 @@ public class CommodityRepositoryJPAImplementation implements CommodityRepository
 
     @Override
     public Commodity save(Commodity commodity) {
-        try{
+        try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
             entityManager.persist(commodity);
             entityManager.getTransaction().commit();
             entityManager.close();
             return commodity;
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
         return null;
@@ -39,7 +39,7 @@ public class CommodityRepositoryJPAImplementation implements CommodityRepository
                     .getResultList();
             entityManager.close();
             return commodityList;
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
         return null;
@@ -55,7 +55,7 @@ public class CommodityRepositoryJPAImplementation implements CommodityRepository
                     .getResultList();
             entityManager.close();
             return commodityList;
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
         return null;
@@ -66,11 +66,11 @@ public class CommodityRepositoryJPAImplementation implements CommodityRepository
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
-            Commodity commodity = entityManager.find(Commodity.class,uuid);
+            Commodity commodity = entityManager.find(Commodity.class, uuid);
             entityManager.getTransaction().commit();
             entityManager.close();
             return commodity;
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
         return null;
@@ -87,7 +87,7 @@ public class CommodityRepositoryJPAImplementation implements CommodityRepository
             entityManager.getTransaction().commit();
             entityManager.close();
             return commodity;
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
         return null;
@@ -101,7 +101,7 @@ public class CommodityRepositoryJPAImplementation implements CommodityRepository
             entityManager.createNamedQuery("Commodity.Delete", Commodity.class)
                     .setParameter("uuid", uuid);
             entityManager.close();
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
     }

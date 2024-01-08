@@ -8,6 +8,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class KeeperApp extends Application {
+    public static void main(String[] args) {
+        launch();
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(KeeperApp.class.getResource("hello-view.fxml"));
@@ -15,9 +19,5 @@ public class KeeperApp extends Application {
         stage.setTitle("keeper!");
         stage.setScene(scene);
         stage.show();
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 }

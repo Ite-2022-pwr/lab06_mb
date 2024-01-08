@@ -8,15 +8,10 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 public class BaseClient {
-    private  SocketChannel client;
-    private  ByteBuffer buffer;
+    private SocketChannel client;
+    private ByteBuffer buffer;
     private String serverHost;
     private Integer serverPort;
-    
-    public void stop() throws IOException {
-        this.client.close();
-        this.buffer = null;
-    }
 
     public BaseClient(String serverHost, Integer serverPort) {
         this.serverHost = serverHost;
@@ -27,6 +22,11 @@ public class BaseClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void stop() throws IOException {
+        this.client.close();
+        this.buffer = null;
     }
 
     public String sendMessage(Request request) {
