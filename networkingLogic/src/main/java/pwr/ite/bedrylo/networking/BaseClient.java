@@ -31,18 +31,19 @@ public class BaseClient {
 
     public String sendMessage(Request request) {
         this.buffer = Util.serialize(request);
-        String response = null;
+        Request response = null;
         try {
             client.write(buffer);
             buffer.clear();
             client.read(buffer);
-            response = new String(buffer.array()).trim();
-            System.out.println("response=" + response);
+            response = (Request) Util.fromBuffer(buffer);
             buffer.clear();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
-        return response;
+        return response.toString();
 
     }
 }

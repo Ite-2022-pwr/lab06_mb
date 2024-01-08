@@ -3,6 +3,7 @@ package pwr.ite.bedrylo.keeper.logic;
 import lombok.SneakyThrows;
 import pwr.ite.bedrylo.dataModule.dto.UserDto;
 import pwr.ite.bedrylo.dataModule.model.data.User;
+import pwr.ite.bedrylo.dataModule.model.request.enums.ResponseType;
 import pwr.ite.bedrylo.dataModule.repository.UserRepository;
 import pwr.ite.bedrylo.dataModule.repository.implementations.user.UserRepositoryJPAImplementation;
 import pwr.ite.bedrylo.dataModule.service.UserService;
@@ -42,12 +43,18 @@ public class KeeperLogic implements RequestHandler {
             Request request =(Request) Util.fromBuffer(buffer);
             System.out.println(request);
             buffer.flip();
+            
             switch (request.getAction().toString()){
                 case "REGISTER":
-                    register((UserDto) request.getData());
+                    Request response = new Request(ResponseType.REGISTER,register((UserDto) request.getData()));
+                    System.out.println("dupa\n"+response);
+                    System.out.println(Util.serialize(response).getClass());
+                    System.out.println(buffer);
+                    buffer = Util.serialize(response);
+                    System.out.println(buffer);
                     break;
                 case "UNREGISTER":
-                    System.out.println("chuj");
+                    buffer = Util.serialize(new Request(null,unregister((UserDto) request.getData())));
                     break;
                 case "GET_INFO":
                     break;
@@ -65,12 +72,19 @@ public class KeeperLogic implements RequestHandler {
                     System.out.println("nieznana akcja");
                     break;
             }
+            
+            
+            
             client.write(buffer);
             buffer.clear();
         }
     }
     
-    private void register(UserDto userDto){
-        userRepository.save(userService.createUserFromDto(userDto));
+    private UserDto register(UserDto userDto){
+        return userService.createDtoFromUser(userRepository.save(userService.createUserFromDto(userDto)));
+    }
+    
+    private UserDto unregister(UserDto userDto){
+        return null;
     }
 }

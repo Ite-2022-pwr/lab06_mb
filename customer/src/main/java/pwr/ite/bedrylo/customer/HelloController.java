@@ -25,7 +25,7 @@ public class HelloController {
         Platform.runLater(()->{
             try {
                 Request request = new Request(KeeperInterfaceActions.REGISTER, userDto);
-                baseClient.sendMessage(request);
+                System.out.println(baseClient.sendMessage(request));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

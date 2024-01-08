@@ -16,4 +16,10 @@ public class CommodityDto implements Serializable {
     private String name;
     private UUID userUuid;
     private UUID uuid;
+
+    public CommodityDto(String name, UUID userUuid, UUID uuid) {
+        this.name = name;
+        this.userUuid = userUuid;
+        this.uuid = uuid;
+    }
 }

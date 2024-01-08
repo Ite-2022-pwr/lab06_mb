@@ -7,7 +7,7 @@ import pwr.ite.bedrylo.networking.BaseServer;
 import pwr.ite.bedrylo.networking.RequestHandler;
 import pwr.ite.bedrylo.keeper.logic.KeeperLogic;
 
-public class HelloController {
+public class KeeperController {
     
     private RequestHandler keeperLogic = KeeperLogic.getInstance();
     
