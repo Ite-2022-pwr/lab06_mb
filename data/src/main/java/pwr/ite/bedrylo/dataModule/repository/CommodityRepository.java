@@ -11,11 +11,11 @@ public interface CommodityRepository {
 
     List<Commodity> findByName(String name);
 
-    List<Commodity> findByUserUuid(UUID userUuid);
+    List<Commodity> findByReceiptUuid(UUID receiptUuid);
 
     Commodity findByUuid(UUID uuid);
 
-    Commodity upadteUserUuidByUuid(UUID uuid, UUID userUuid);
+    Commodity upadteReceiptUuidByUuid(UUID uuid, UUID receiptUuid);//!remove ?
 
     void delete(UUID uuid);
 

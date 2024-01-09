@@ -4,5 +4,6 @@ import java.io.Serializable;
 
 public enum SellerInterfaceActions implements Serializable {
     CLIENT_ACCEPT_ORDER,
-    KEEPER_GET_RESPONSE
+    KEEPER_GET_RESPONSE,
+    DISCONNECT
 }

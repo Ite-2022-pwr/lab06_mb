@@ -3,6 +3,7 @@ module pwr.ite.bedrylo.customer {
     requires javafx.fxml;
     requires networkingLogic;
     requires data;
+    requires static lombok;
 
 
     opens pwr.ite.bedrylo.customer to javafx.fxml;

@@ -9,5 +9,6 @@ public enum ResponseType {
     GET_OFFER,
     PUT_ORDER,
     ACCEPT_ORDER,
-    RETURN_RECEIPT
+    RETURN_RECEIPT,
+    DISCONNECTED
 }

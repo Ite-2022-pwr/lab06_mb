@@ -164,8 +164,11 @@ public class UserRepositoryJPAImplementation implements UserRepository {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
-            entityManager.createNamedQuery("User.Delete", User.class)
-                    .setParameter("uuid", uuid);
+            entityManager.createNamedQuery("User.Delete")
+                    .setParameter("uuid", uuid)
+                    .executeUpdate();
+            entityManager.flush();
+            entityManager.getTransaction().commit();
             entityManager.close();
         } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());

@@ -19,5 +19,6 @@ module data {
     exports pwr.ite.bedrylo.dataModule.repository;
     exports pwr.ite.bedrylo.dataModule.repository.implementations.user;
     exports pwr.ite.bedrylo.dataModule.service;
+    opens pwr.ite.bedrylo.dataModule.dto;
 
 }

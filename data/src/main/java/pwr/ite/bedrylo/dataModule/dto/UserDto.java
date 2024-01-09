@@ -33,4 +33,12 @@ public class UserDto implements Serializable {
         this.busy = null;
         this.uuid = null;
     }
+
+    public UserDto(int port, String host, Role role, UUID uuid) {
+        this.port = port;
+        this.host = host;
+        this.role = role;
+        this.busy = null;
+        this.uuid = uuid;
+    }
 }

@@ -1,5 +1,6 @@
 package pwr.ite.bedrylo.networking;
 
+import lombok.SneakyThrows;
 import pwr.ite.bedrylo.dataModule.model.request.Request;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ public class BaseClient {
     private String serverHost;
     private Integer serverPort;
 
+    @SneakyThrows
     public BaseClient(String serverHost, Integer serverPort) {
         this.serverHost = serverHost;
         this.serverPort = serverPort;
@@ -24,9 +26,11 @@ public class BaseClient {
         }
     }
 
+    @SneakyThrows
     public void stop() throws IOException {
-        this.client.close();
         this.buffer = null;
+        this.client.close();
+        
     }
 
     public String sendMessage(Request request) {

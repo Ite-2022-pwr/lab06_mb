@@ -48,14 +48,13 @@ public class BaseServer implements Runnable {
             Set<SelectionKey> selectedKeys = selector.selectedKeys();
             Iterator<SelectionKey> iter = selectedKeys.iterator();
             while (iter.hasNext()) {
-
                 SelectionKey key = iter.next();
 
                 if (key.isAcceptable()) {
                     register(selector, serverSocket);
                 }
 
-                if (key.isReadable()) {
+                if (key.isReadable() && key.channel().isOpen()) {
                     requestHandler.processRequest(buffer, key);
                 }
                 iter.remove();

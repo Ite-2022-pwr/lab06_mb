@@ -37,10 +37,20 @@ public class KeeperLogic implements RequestHandler {
     @Override
     public void processRequest(ByteBuffer buffer, SelectionKey key) {
         SocketChannel client = (SocketChannel) key.channel();
-        int r = client.read(buffer);
-        if (r == -1) {
+        if (!client.isConnected()) {
+            return;
+        }
+        int r = -1;
+        try {
+            r = client.read(buffer);
+        } catch (Exception e){
+            System.out.println("kaput");
             client.close();
-            System.out.println("Not accepting client messages anymore");
+        }
+               
+        if (r == -1) {
+            System.out.println("kaput ale celowy");
+            client.close();
         } else {
             Request request = (Request) Util.fromBuffer(buffer);
             buffer.flip();
@@ -51,6 +61,9 @@ public class KeeperLogic implements RequestHandler {
                     break;
                 case "UNREGISTER":
                     response = new Request(ResponseType.UNREGISTER, unregister((UserDto) request.getData()));
+                    break;
+                case "DISCONNECT":
+                    
                     break;
                 case "GET_INFO":
                     break;
@@ -79,6 +92,8 @@ public class KeeperLogic implements RequestHandler {
     }
 
     private UserDto unregister(UserDto userDto) {
-        return null;
+        System.out.println(userDto.getUuid());
+        userRepository.delete(userDto.getUuid());
+        return userDto;
     }
 }

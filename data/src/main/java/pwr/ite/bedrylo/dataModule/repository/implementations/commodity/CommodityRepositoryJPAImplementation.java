@@ -46,12 +46,12 @@ public class CommodityRepositoryJPAImplementation implements CommodityRepository
     }
 
     @Override
-    public List<Commodity> findByUserUuid(UUID userUuid) {
+    public List<Commodity> findByReceiptUuid(UUID receiptUuid) {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
-            List<Commodity> commodityList = entityManager.createNamedQuery("Commodity.FindByUserUuid", Commodity.class)
-                    .setParameter("userUuid", userUuid)
+            List<Commodity> commodityList = entityManager.createNamedQuery("Commodity.FindByReceiptUuid", Commodity.class)
+                    .setParameter("userUuid", receiptUuid)
                     .getResultList();
             entityManager.close();
             return commodityList;
@@ -77,13 +77,13 @@ public class CommodityRepositoryJPAImplementation implements CommodityRepository
     }
 
     @Override
-    public Commodity upadteUserUuidByUuid(UUID uuid, UUID userUuid) {
+    public Commodity upadteReceiptUuidByUuid(UUID uuid, UUID receiptUuid) {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
-            Commodity commodity = entityManager.createNamedQuery("Commodity.UpdateUserUuidByUuid", Commodity.class)
+            Commodity commodity = entityManager.createNamedQuery("Commodity.UpdateReceiptUuidByUuid", Commodity.class)
                     .setParameter("uuid", uuid)
-                    .setParameter("userUuid", userUuid).getSingleResult();
+                    .setParameter("userUuid", receiptUuid).getSingleResult();
             entityManager.getTransaction().commit();
             entityManager.close();
             return commodity;

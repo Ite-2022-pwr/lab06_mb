@@ -28,8 +28,8 @@ public class CommodityRepositoryListImplementation implements CommodityRepositor
     }
 
     @Override
-    public List<Commodity> findByUserUuid(UUID userUuid) {
-        List<Commodity> result = commodities.stream().filter(o -> Objects.equals(o.getUserUuid(), userUuid)).toList();
+    public List<Commodity> findByReceiptUuid(UUID receiptUuid) {
+        List<Commodity> result = commodities.stream().filter(o -> Objects.equals(o.getReceiptUuid(), receiptUuid)).toList();
         if (result.isEmpty()) {
             return null;
         }
@@ -43,12 +43,12 @@ public class CommodityRepositoryListImplementation implements CommodityRepositor
     }
 
     @Override
-    public Commodity upadteUserUuidByUuid(UUID uuid, UUID userUuid) {
+    public Commodity upadteReceiptUuidByUuid(UUID uuid, UUID receiptUuid) {
         Commodity commodity = commodities.stream().filter(o -> Objects.equals(o.getUuid(), uuid)).findFirst().orElse(null);
         if (commodity == null) {
             return null;
         }
-        commodity.setUserUuid(userUuid);
+        commodity.setReceiptUuid(receiptUuid);
         return commodity;
     }
 

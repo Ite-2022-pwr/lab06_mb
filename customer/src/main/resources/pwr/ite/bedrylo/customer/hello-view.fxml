@@ -12,4 +12,5 @@
 
     <Label fx:id="welcomeText"/>
     <Button text="Hello!" onAction="#onHelloButtonClick"/>
+    <Button text="bye!" onAction="#onByeButtonClick"/>
 </VBox>

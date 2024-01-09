@@ -19,13 +19,13 @@ public class CommodityService {
         if (commodityDto.getUuid() != null) {
             commodity.setUuid(commodityDto.getUuid());
         }
-        if (commodityDto.getUserUuid() != null) {
-            commodity.setUserUuid(commodityDto.getUserUuid());
+        if (commodityDto.getReceiptUuid() != null) {
+            commodity.setReceiptUuid(commodityDto.getReceiptUuid());
         }
         return commodity;
     }
 
     public CommodityDto createCommodityDTOFtomCommodity(Commodity commodity) {
-        return new CommodityDto(commodity.getName(), commodity.getUserUuid(), commodity.getUuid());
+        return new CommodityDto(commodity.getName(), commodity.getReceiptUuid(), commodity.getUuid(), commodity.getPrice());
     }
 }

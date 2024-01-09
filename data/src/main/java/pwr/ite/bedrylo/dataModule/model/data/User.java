@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import pwr.ite.bedrylo.dataModule.model.data.enums.Role;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @Entity
@@ -33,11 +35,14 @@ public class User extends BaseEntity {
 
     @Column(name = "busy", nullable = false)
     private boolean busy;
+    
+    @OneToMany(mappedBy = "userUuid")
+    private Set<Receipt> receipts;
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("uuid: ").append(getUuid()).append(", host:").append(getHost()).append(", port:").append(getPort()).append(", role:").append(getRole().toString()).append(", busy:").append(isBusy()).append(" ");
+        stringBuilder.append("uuid: ").append(getUuid()).append(", host:").append(getHost()).append(", port:").append(getPort()).append(", role:").append(getRole().toString()).append(", busy:").append(isBusy()).append(" ").append(getReceipts());
         return stringBuilder.toString();
     }
 
