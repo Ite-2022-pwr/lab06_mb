@@ -1,6 +1,7 @@
 package pwr.ite.bedrylo.dataModule.model.request;
 
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 

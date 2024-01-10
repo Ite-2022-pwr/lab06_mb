@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class UserRepositoryJPAImplementation implements UserRepository {
     private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("database");
-
+    
     //private EntityManager entityManager = entityManagerFactory.createEntityManager();
     // TODO refactor this shit
 
@@ -22,6 +22,9 @@ public class UserRepositoryJPAImplementation implements UserRepository {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
+            if (user.getUuid()==null){
+                user.generateUuid();
+            }
             entityManager.persist(user);
             entityManager.getTransaction().commit();
             entityManager.close();

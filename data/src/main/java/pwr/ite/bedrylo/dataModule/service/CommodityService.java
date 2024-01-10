@@ -15,17 +15,17 @@ public class CommodityService {
 
     public Commodity createCommodityFromDTO(CommodityDto commodityDto) {
         Commodity commodity = new Commodity();
+        commodity.setUuid(commodityDto.getUuid());
         commodity.setName(commodityDto.getName());
-        if (commodityDto.getUuid() != null) {
-            commodity.setUuid(commodityDto.getUuid());
+        commodity.setInWarehouse(true);
+        if (commodityDto.getReceiptDto() != null){
+            commodity.setReceipt(ReceiptService.getInstance().createReceiptFromDto(commodityDto.getReceiptDto()));    
         }
-        if (commodityDto.getReceiptUuid() != null) {
-            commodity.setReceiptUuid(commodityDto.getReceiptUuid());
-        }
+        commodity.setPrice(commodityDto.getPrice());
         return commodity;
     }
 
-    public CommodityDto createCommodityDTOFtomCommodity(Commodity commodity) {
-        return new CommodityDto(commodity.getName(), commodity.getReceiptUuid(), commodity.getUuid(), commodity.getPrice());
+    public CommodityDto createCommodityDTOFromCommodity(Commodity commodity) {
+        return new CommodityDto(commodity.getName(), ReceiptService.getInstance().createReceiptDtoFromReceipt(commodity.getReceipt()), commodity.getUuid(), commodity.getPrice());
     }
 }

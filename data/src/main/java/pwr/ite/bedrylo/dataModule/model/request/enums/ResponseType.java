@@ -10,5 +10,6 @@ public enum ResponseType {
     PUT_ORDER,
     ACCEPT_ORDER,
     RETURN_RECEIPT,
-    DISCONNECTED
+    DISCONNECTED,
+    NULL_DATA_SENT
 }

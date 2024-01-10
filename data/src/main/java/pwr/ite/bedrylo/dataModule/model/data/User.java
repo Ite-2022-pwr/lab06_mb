@@ -19,7 +19,8 @@ import java.util.Set;
         @NamedQuery(name = "User.FindByRole", query = "select u from User u where u.role = :role"),
         @NamedQuery(name = "User.FindByBusy", query = "select u from User u where u.busy = :busy"),
         @NamedQuery(name = "User.Delete", query = "delete from User u where u.uuid = :uuid"),
-        @NamedQuery(name = "User.UpdateBusyByUuid", query = "update User u set u.busy = :busy where u.uuid = :uuid", lockMode = LockModeType.PESSIMISTIC_READ)
+        @NamedQuery(name = "User.UpdateBusyByUuid", query = "update User u set u.busy = :busy where u.uuid = :uuid", lockMode = LockModeType.PESSIMISTIC_READ),
+        @NamedQuery(name = "User.FindByUuid", query = "select u from User u where u.uuid = :uuid")
 })
 public class User extends BaseEntity {
 
@@ -36,7 +37,7 @@ public class User extends BaseEntity {
     @Column(name = "busy", nullable = false)
     private boolean busy;
     
-    @OneToMany(mappedBy = "userUuid")
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY, mappedBy = "userUuid")
     private Set<Receipt> receipts;
 
     @Override

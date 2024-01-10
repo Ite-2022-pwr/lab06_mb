@@ -22,12 +22,13 @@ public class HelloController {
     @SneakyThrows
     @FXML
     protected void onHelloButtonClick() {
-        UserDto userDto = new UserDto(69, "testowykolega", Role.CLIENT);
+        UserDto userDto = new UserDto(69, "testowykolega", Role.CLIENT, UUID.randomUUID());
          baseClient = new BaseClient("localhost", 2137);
         Platform.runLater(() -> {
             try {
-                Request request = new Request(KeeperInterfaceActions.REGISTER, userDto);
+                Request request = new Request(KeeperInterfaceActions.DELIVERER_GET_ORDER, null);
                 System.out.println(baseClient.sendMessage(request));
+                baseClient.stop();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

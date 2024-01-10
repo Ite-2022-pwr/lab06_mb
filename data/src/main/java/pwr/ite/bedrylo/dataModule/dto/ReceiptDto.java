@@ -6,6 +6,7 @@ import pwr.ite.bedrylo.dataModule.dto.CommodityDto;
 import pwr.ite.bedrylo.dataModule.model.data.Receipt;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -17,5 +18,16 @@ import java.util.UUID;
 public class ReceiptDto implements Serializable {
     private UUID uuid;
     private UUID userUuid;
-    private Set<CommodityDto> commodities;
+    private List<CommodityDto> commodities;
+    
+    public ReceiptDto(UUID uuid, UUID userUuid, List<CommodityDto> commodities){
+        this.uuid = uuid;
+        this.userUuid = userUuid;
+        this.commodities = commodities;
+    }
+    
+    public ReceiptDto(UUID userUuid, List<CommodityDto> commodities){
+        this.userUuid = userUuid;
+        this.commodities = commodities;
+    }
 }
