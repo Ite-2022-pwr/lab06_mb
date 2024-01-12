@@ -25,4 +25,10 @@ public class CommodityDto implements Serializable {
         this.uuid = uuid;
         this.price = price;
     }
+    
+    public CommodityDto(String name, UUID uuid, double price) {
+        this.name = name;
+        this.uuid = uuid;
+        this.price = price;
+    }
 }

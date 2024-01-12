@@ -12,5 +12,6 @@ public enum KeeperInterfaceActions implements Serializable {
     CUSTOMER_GET_OFFER,
     CUSTOMER_PUT_ORDER,
     SELLER_RETURN_ORDER,
-    DISCONNECT
+    DISCONNECT,
+    CUSTOMER_GET_RECEIPTS;
 }

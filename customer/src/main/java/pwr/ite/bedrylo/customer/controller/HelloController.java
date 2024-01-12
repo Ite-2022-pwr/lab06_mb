@@ -1,4 +1,4 @@
-package pwr.ite.bedrylo.customer;
+package pwr.ite.bedrylo.customer.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;

@@ -39,6 +39,7 @@ public class CommodityRepositoryJPAImplementation implements CommodityRepository
             entityManager.getTransaction().begin();
             List<Commodity> commodityList = entityManager.createNamedQuery("Commodity.Available", Commodity.class)
                     .getResultList();
+            entityManager.getTransaction().commit();
             entityManager.close();
             return commodityList;
         } catch (Exception e) {
@@ -116,12 +117,12 @@ public class CommodityRepositoryJPAImplementation implements CommodityRepository
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
-            Commodity commodity = entityManager.createNamedQuery("Commodity.UpdateInWarehouseByUuid", Commodity.class)
+            entityManager.createNamedQuery("Commodity.UpdateInWarehouseByUuid")
                     .setParameter("uuid", uuid)
-                    .setParameter("inWarehouse", inWarehouse).getSingleResult();
+                    .setParameter("inWarehouse", inWarehouse).executeUpdate();
             entityManager.getTransaction().commit();
             entityManager.close();
-            return commodity;
+            return findByUuid(uuid);
         } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }

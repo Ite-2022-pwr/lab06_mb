@@ -1,7 +1,12 @@
 package pwr.ite.bedrylo.dataModule.service;
 
+import pwr.ite.bedrylo.dataModule.dto.ReceiptDto;
 import pwr.ite.bedrylo.dataModule.dto.UserDto;
 import pwr.ite.bedrylo.dataModule.model.data.User;
+
+import java.util.Set;
+import java.util.stream.Collectors;
+
 
 public class UserService {
 
@@ -32,6 +37,7 @@ public class UserService {
 
 
     public UserDto createDtoFromUser(User user) {
-        return new UserDto(user.getPort(), user.getHost(), user.getRole(), user.isBusy(), user.getUuid());
+        Set<ReceiptDto> receiptDtos = user.getReceipts().stream().map(o->ReceiptService.getInstance().createReceiptDtoFromReceipt(o)).collect(Collectors.toSet());
+        return new UserDto(user.getPort(), user.getHost(), user.getRole(), user.isBusy(), user.getUuid(), receiptDtos);
     }
 }

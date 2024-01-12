@@ -3,6 +3,7 @@ package pwr.ite.bedrylo.dataModule.repository.implementations.user;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import org.hibernate.Hibernate;
 import pwr.ite.bedrylo.dataModule.model.data.User;
 import pwr.ite.bedrylo.dataModule.model.data.enums.Role;
 import pwr.ite.bedrylo.dataModule.repository.UserRepository;
@@ -31,6 +32,7 @@ public class UserRepositoryJPAImplementation implements UserRepository {
             return user;
         } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
+            e.printStackTrace();
         }
         return null;
 
@@ -43,7 +45,9 @@ public class UserRepositoryJPAImplementation implements UserRepository {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
             entityManager.flush();
+            
             User user = entityManager.find(User.class, uuid);
+            Hibernate.initialize(user.getReceipts());
             entityManager.getTransaction().commit();
             entityManager.close();
             return user;

@@ -8,4 +8,6 @@ module pwr.ite.bedrylo.customer {
 
     opens pwr.ite.bedrylo.customer to javafx.fxml;
     exports pwr.ite.bedrylo.customer;
+    exports pwr.ite.bedrylo.customer.controller;
+    opens pwr.ite.bedrylo.customer.controller to javafx.fxml;
 }

@@ -21,7 +21,7 @@ public class Receipt extends BaseEntity{
     @Column(name = "userUuid")
     private UUID userUuid;
     
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY, mappedBy = "receipt")
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "receipt")
     private List<Commodity> commodities;
     
     

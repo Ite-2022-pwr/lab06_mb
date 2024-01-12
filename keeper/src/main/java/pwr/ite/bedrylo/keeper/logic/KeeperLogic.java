@@ -2,17 +2,23 @@ package pwr.ite.bedrylo.keeper.logic;
 
 import lombok.SneakyThrows;
 import pwr.ite.bedrylo.dataModule.dto.CommodityDto;
+import pwr.ite.bedrylo.dataModule.dto.ReceiptDto;
 import pwr.ite.bedrylo.dataModule.dto.UserDto;
 import pwr.ite.bedrylo.dataModule.model.data.Commodity;
 import pwr.ite.bedrylo.dataModule.model.data.Order;
+import pwr.ite.bedrylo.dataModule.model.data.Receipt;
 import pwr.ite.bedrylo.dataModule.model.data.User;
+import pwr.ite.bedrylo.dataModule.model.data.enums.Role;
 import pwr.ite.bedrylo.dataModule.model.request.Request;
 import pwr.ite.bedrylo.dataModule.model.request.enums.ResponseType;
 import pwr.ite.bedrylo.dataModule.repository.CommodityRepository;
+import pwr.ite.bedrylo.dataModule.repository.ReceiptRepository;
 import pwr.ite.bedrylo.dataModule.repository.UserRepository;
 import pwr.ite.bedrylo.dataModule.repository.implementations.commodity.CommodityRepositoryJPAImplementation;
+import pwr.ite.bedrylo.dataModule.repository.implementations.receipt.ReceiptRepositoryJPAImplementation;
 import pwr.ite.bedrylo.dataModule.repository.implementations.user.UserRepositoryJPAImplementation;
 import pwr.ite.bedrylo.dataModule.service.CommodityService;
+import pwr.ite.bedrylo.dataModule.service.ReceiptService;
 import pwr.ite.bedrylo.dataModule.service.UserService;
 import pwr.ite.bedrylo.networking.RequestHandler;
 import pwr.ite.bedrylo.networking.Util;
@@ -40,6 +46,10 @@ public class KeeperLogic implements RequestHandler {
     
     private static CommodityRepository commodityRepository;
     
+    private static ReceiptService receiptService;
+    
+    private static ReceiptRepository receiptRepository;
+    
     private static Queue<Order> orderQueue;
     
 
@@ -51,6 +61,8 @@ public class KeeperLogic implements RequestHandler {
         userService = UserService.getInstance();
         commodityRepository = new CommodityRepositoryJPAImplementation();
         commodityService = CommodityService.getInstance();
+        receiptRepository = new ReceiptRepositoryJPAImplementation();
+        receiptService = ReceiptService.getInstance();
         orderQueue = new ArrayBlockingQueue<>(69);
         //orderQueue.add(new Order(UUID.randomUUID(), new ArrayList<>()));
         return instance;
@@ -88,7 +100,8 @@ public class KeeperLogic implements RequestHandler {
                     response = new Request(ResponseType.UNREGISTER, unregister((UserDto) request.getData()));
                     break;
                 case "GET_INFO":
-                    response = new Request(ResponseType.GET_INFO, getInfo(request.getData()));
+                    Object[] data = (Object[]) request.getData();
+                    response = new Request(ResponseType.GET_INFO, getInfo(data[0], (Role) data[1]));
                     break;
                 case "DELIVERER_GET_ORDER":
                     response = new Request(ResponseType.GET_ORDER, getOrder());
@@ -103,6 +116,9 @@ public class KeeperLogic implements RequestHandler {
                 case "CUSTOMER_PUT_ORDER":
                     response = new Request(ResponseType.PUT_ORDER, putOrder((Order) request.getData()));
                     break;
+                case "CUSTOMER_GET_RECEIPTS":
+                    response = new Request(ResponseType.GET_RECEIPTS, getReceipsts((UserDto) request.getData()));
+                    break;    
                 default:
                     System.out.println("nieznana akcja");
                     response = new Request(ResponseType.WRONG_REQUEST, null);
@@ -112,6 +128,15 @@ public class KeeperLogic implements RequestHandler {
             client.write(buffer);
             buffer.clear();
         }
+    }
+
+    private List<ReceiptDto> getReceipsts(UserDto data) {
+        if (data != null && data.getUuid() != null){
+            List<Receipt> receipts = receiptRepository.findByUserUuid(data.getUuid());
+            List<ReceiptDto> receiptDtos = receipts.stream().map(o->receiptService.createReceiptDtoFromReceipt(o)).toList();
+            return receiptDtos;
+        }
+        return null;
     }
 
     private Object login(UserDto data) {
@@ -133,7 +158,10 @@ public class KeeperLogic implements RequestHandler {
             return null;
         }
         orderQueue.add(order);
-        return order;
+        for (CommodityDto commodityDto: order.getCommodityDtos()){
+            commodityRepository.updateInWarehouseByUuid(commodityDto.getUuid(), false);
+        }
+        return order.getCommodityDtos();
     }
 
     private Object getOffer() {
@@ -167,12 +195,21 @@ public class KeeperLogic implements RequestHandler {
         return order;
     }
 
-    private UserDto getInfo(Object uuid) {
-        UserDto userDto;
+    private UserDto getInfo(Object uuid, Role role) {
+        UserDto userDto = null;
         if (uuid.getClass() == UUID.class){
             userDto = userService.createDtoFromUser(userRepository.findByUuid((UUID) uuid));
         } else if (uuid.getClass() == Integer.class &&(Integer) uuid == 0) {
-            userDto = userService.createDtoFromUser(userRepository.findByBusyStatus(false).get(0));
+            List<User> users = userRepository.findByRole(role);
+            if (users.isEmpty()){
+                return null;
+            }
+            for (User user: users){
+                if (!user.isBusy()){
+                    userDto = userService.createDtoFromUser(user);
+                    return userDto;
+                }
+            }
         } else {
             return null;
         }

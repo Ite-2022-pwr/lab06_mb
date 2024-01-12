@@ -26,6 +26,6 @@ public class CommodityService {
     }
 
     public CommodityDto createCommodityDTOFromCommodity(Commodity commodity) {
-        return new CommodityDto(commodity.getName(), commodity.getReceipt() !=null ? ReceiptService.getInstance().createReceiptDtoFromReceipt(commodity.getReceipt()):null, commodity.getUuid(), commodity.getPrice());
+        return new CommodityDto(commodity.getName(), commodity.getUuid(), commodity.getPrice());
     }
 }

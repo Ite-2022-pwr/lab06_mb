@@ -2,6 +2,7 @@ package pwr.ite.bedrylo.keeper.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import pwr.ite.bedrylo.keeper.logic.KeeperLogic;
 import pwr.ite.bedrylo.networking.BaseServer;
@@ -13,6 +14,9 @@ public class KeeperController {
 
     @FXML
     private Label welcomeText;
+    
+    @FXML
+    private Button helloButton;
 
 
     @FXML
@@ -26,5 +30,7 @@ public class KeeperController {
             }
         });
         welcomeText.setText("serwer wstał");
+        helloButton.setDisable(true);
+        
     }
 }

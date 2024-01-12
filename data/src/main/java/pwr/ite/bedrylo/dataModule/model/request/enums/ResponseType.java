@@ -13,5 +13,6 @@ public enum ResponseType {
     RETURN_RECEIPT,
     DISCONNECTED,
     NULL_DATA_SENT,
-    WRONG_REQUEST
+    WRONG_REQUEST,
+    GET_RECEIPTS
 }
