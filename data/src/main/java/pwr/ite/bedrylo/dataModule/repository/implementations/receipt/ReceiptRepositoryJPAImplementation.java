@@ -27,16 +27,14 @@ public class ReceiptRepositoryJPAImplementation implements ReceiptRepository {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
             entityManager.merge(receipt);
-            entityManager.getTransaction().commit();
             for(Commodity commodity: receipt.getCommodities()){
-                entityManager.getTransaction().begin();
                 entityManager.createNamedQuery("Commodity.UpdateReceiptByUuid")
                         .setParameter("receipt", receipt)
                         .setParameter("uuid", commodity.getUuid())
                         .setParameter("inWarehouse", false)
                         .executeUpdate();
-                entityManager.getTransaction().commit();
             }
+            entityManager.getTransaction().commit();
             entityManager.close();
             return receipt;
         } catch (Exception e) {

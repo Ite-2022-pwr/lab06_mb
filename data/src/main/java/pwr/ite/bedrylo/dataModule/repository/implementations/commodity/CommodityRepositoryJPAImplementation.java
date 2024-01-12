@@ -22,7 +22,7 @@ public class CommodityRepositoryJPAImplementation implements CommodityRepository
             if (commodity.getUuid() == null){
                 commodity.generateUuid();
             }
-            entityManager.merge(commodity);
+            entityManager.persist(commodity);
             entityManager.getTransaction().commit();
             entityManager.close();
             return commodity;
@@ -68,8 +68,8 @@ public class CommodityRepositoryJPAImplementation implements CommodityRepository
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
-            List<Commodity> commodityList = entityManager.createNamedQuery("Commodity.FindByReceiptUuid", Commodity.class)
-                    .setParameter("receiptUuid", receipt)
+            List<Commodity> commodityList = entityManager.createNamedQuery("Commodity.FindByReceipt", Commodity.class)
+                    .setParameter("receipt", receipt)
                     .getResultList();
             entityManager.close();
             return commodityList;
@@ -99,7 +99,7 @@ public class CommodityRepositoryJPAImplementation implements CommodityRepository
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
-            Commodity commodity = entityManager.createNamedQuery("Commodity.UpdateReceiptUuidByUuid", Commodity.class)
+            Commodity commodity = entityManager.createNamedQuery("Commodity.UpdateReceiptByUuid", Commodity.class)
                     .setParameter("uuid", uuid)
                     .setParameter("receipt", receipt).getSingleResult();
             entityManager.getTransaction().commit();

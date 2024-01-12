@@ -163,6 +163,30 @@ public class UserRepositoryJPAImplementation implements UserRepository {
     }
 
     @Override
+    public User updateHostAndPortByUuid(UUID uuid, String host, int port) {
+        try {
+            EntityManager entityManager = entityManagerFactory.createEntityManager();
+            entityManager.getTransaction().begin();
+            entityManager.createNamedQuery("User.UpdateHostAndPortByUuid")
+                    .setParameter("host", host)
+                    .setParameter("port", port)
+                    .setParameter("uuid", uuid)
+                    .executeUpdate();
+            entityManager.flush();
+            entityManager.getTransaction().commit();
+            entityManager.close();
+        } catch (Exception e) {
+            System.out.println(e.getLocalizedMessage());
+        }
+        try {
+            return findByUuid(uuid);
+        } catch (Exception e) {
+            System.out.println(e.getLocalizedMessage());
+        }
+        return null;
+    }
+
+    @Override
     public void delete(UUID uuid) {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();

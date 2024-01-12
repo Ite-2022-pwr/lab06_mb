@@ -2,6 +2,7 @@ package pwr.ite.bedrylo.dataModule.model.request.enums;
 
 public enum ResponseType {
     REGISTER,
+    LOGIN,
     UNREGISTER,
     GET_ORDER,
     RETURN_ORDER,
@@ -11,5 +12,6 @@ public enum ResponseType {
     ACCEPT_ORDER,
     RETURN_RECEIPT,
     DISCONNECTED,
-    NULL_DATA_SENT
+    NULL_DATA_SENT,
+    WRONG_REQUEST
 }

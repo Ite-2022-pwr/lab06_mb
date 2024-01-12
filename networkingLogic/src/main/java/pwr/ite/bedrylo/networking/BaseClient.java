@@ -5,6 +5,7 @@ import pwr.ite.bedrylo.dataModule.model.request.Request;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
@@ -22,7 +23,7 @@ public class BaseClient {
             this.client = SocketChannel.open(new InetSocketAddress(serverHost, serverPort));
             this.buffer = ByteBuffer.allocate(65536);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getLocalizedMessage());
         }
     }
 
@@ -33,7 +34,7 @@ public class BaseClient {
         
     }
 
-    public String sendMessage(Request request) {
+    public Request sendMessage(Request request) {
         this.buffer = Util.serialize(request);
         Request response = null;
         try {
@@ -43,11 +44,11 @@ public class BaseClient {
             response = (Request) Util.fromBuffer(buffer);
             buffer.clear();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getLocalizedMessage());
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        return response.toString();
+        return response;
 
     }
 }

@@ -3,7 +3,9 @@ package pwr.ite.bedrylo.keeper.logic;
 import lombok.SneakyThrows;
 import pwr.ite.bedrylo.dataModule.dto.CommodityDto;
 import pwr.ite.bedrylo.dataModule.dto.UserDto;
+import pwr.ite.bedrylo.dataModule.model.data.Commodity;
 import pwr.ite.bedrylo.dataModule.model.data.Order;
+import pwr.ite.bedrylo.dataModule.model.data.User;
 import pwr.ite.bedrylo.dataModule.model.request.Request;
 import pwr.ite.bedrylo.dataModule.model.request.enums.ResponseType;
 import pwr.ite.bedrylo.dataModule.repository.CommodityRepository;
@@ -19,6 +21,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 import java.util.UUID;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -49,7 +52,7 @@ public class KeeperLogic implements RequestHandler {
         commodityRepository = new CommodityRepositoryJPAImplementation();
         commodityService = CommodityService.getInstance();
         orderQueue = new ArrayBlockingQueue<>(69);
-        orderQueue.add(new Order(UUID.randomUUID(), new ArrayList<>()));
+        //orderQueue.add(new Order(UUID.randomUUID(), new ArrayList<>()));
         return instance;
     }
 
@@ -78,6 +81,9 @@ public class KeeperLogic implements RequestHandler {
                 case "REGISTER":
                     response = new Request(ResponseType.REGISTER, register((UserDto) request.getData()));
                     break;
+                case "LOGIN":
+                    response = new Request(ResponseType.LOGIN, login((UserDto)request.getData()));
+                    break;
                 case "UNREGISTER":
                     response = new Request(ResponseType.UNREGISTER, unregister((UserDto) request.getData()));
                     break;
@@ -88,22 +94,59 @@ public class KeeperLogic implements RequestHandler {
                     response = new Request(ResponseType.GET_ORDER, getOrder());
                     break;
                 case "DELIVERER_RETURN_ORDER":
+                case "SELLER_RETURN_ORDER":
                     response = new Request(ResponseType.RETURN_ORDER, returnOrder((Order) request.getData()));
                     break;
                 case "CUSTOMER_GET_OFFER":
+                    response = new Request(ResponseType.GET_OFFER, getOffer());
                     break;
                 case "CUSTOMER_PUT_ORDER":
-                    break;
-                case "SELLER_RETURN_ORDER":
+                    response = new Request(ResponseType.PUT_ORDER, putOrder((Order) request.getData()));
                     break;
                 default:
                     System.out.println("nieznana akcja");
+                    response = new Request(ResponseType.WRONG_REQUEST, null);
                     break;
             }
             buffer = Util.serialize(response);
             client.write(buffer);
             buffer.clear();
         }
+    }
+
+    private Object login(UserDto data) {
+        if (data != null && data.getUuid() != null){
+            User user = userRepository.findByUuid(data.getUuid());
+            boolean roleMatch = user.getRole() == data.getRole();
+            boolean changedHost = !user.getHost().equals(data.getHost());
+            boolean changedPort = user.getPort() != data.getPort();
+            if (roleMatch && ( changedHost||changedPort )) {
+                user = userRepository.updateHostAndPortByUuid(data.getUuid(), data.getHost(), data.getPort());
+            }
+            return user != null ? userService.createDtoFromUser(user) : null;
+        }
+        return null;
+    }
+
+    private Object putOrder(Order order) {
+        if (order == null){
+            return null;
+        }
+        orderQueue.add(order);
+        return order;
+    }
+
+    private Object getOffer() {
+        List<Commodity> availableCommodities = commodityRepository.findAvailable();
+        if (!availableCommodities.isEmpty())
+        {
+            List<CommodityDto> offer = new ArrayList<>();
+            for (Commodity commodity: availableCommodities) {
+                offer.add(commodityService.createCommodityDTOFromCommodity(commodity));
+            }
+            return offer;
+        }
+        return null;
     }
 
     private Object returnOrder(Order order) {
@@ -115,7 +158,7 @@ public class KeeperLogic implements RequestHandler {
 
     private Order getOrder() {
         Order order = orderQueue.poll();
-        if (order.getCommodityDtos() == null){
+        if (order == null){
             return order;
         }
         for (CommodityDto commodityDto: order.getCommodityDtos()){

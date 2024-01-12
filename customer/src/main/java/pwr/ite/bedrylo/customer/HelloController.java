@@ -1,7 +1,6 @@
 package pwr.ite.bedrylo.customer;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import lombok.SneakyThrows;
@@ -22,11 +21,11 @@ public class HelloController {
     @SneakyThrows
     @FXML
     protected void onHelloButtonClick() {
-        UserDto userDto = new UserDto(69, "testowykolega", Role.CLIENT, UUID.randomUUID());
+        UserDto userDto = new UserDto(420, "test3", Role.CLIENT, UUID.randomUUID());
          baseClient = new BaseClient("localhost", 2137);
         Platform.runLater(() -> {
             try {
-                Request request = new Request(KeeperInterfaceActions.DELIVERER_GET_ORDER, null);
+                Request request = new Request(KeeperInterfaceActions.REGISTER, userDto);
                 System.out.println(baseClient.sendMessage(request));
                 baseClient.stop();
             } catch (Exception e) {
@@ -37,9 +36,11 @@ public class HelloController {
     }
 
     @FXML
-    public void onByeButtonClick(ActionEvent actionEvent) {
+    public void onByeButtonClick() {
         Platform.runLater(() -> {
             try {
+                baseClient = new BaseClient("localhost", 2137);
+                System.out.println(baseClient.sendMessage(new Request(KeeperInterfaceActions.CUSTOMER_GET_OFFER, null)));
                 baseClient.stop();
             }catch (Exception e){
                 System.out.println("chujek");

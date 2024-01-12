@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public enum KeeperInterfaceActions implements Serializable {
     REGISTER,
+    LOGIN,
     UNREGISTER,
     GET_INFO,
     DELIVERER_GET_ORDER,

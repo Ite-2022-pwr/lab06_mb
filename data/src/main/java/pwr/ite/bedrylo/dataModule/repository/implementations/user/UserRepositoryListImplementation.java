@@ -78,6 +78,11 @@ public class UserRepositoryListImplementation implements UserRepository {
     }
 
     @Override
+    public User updateHostAndPortByUuid(UUID uuid, String host, int port) {
+        return null;
+    }
+
+    @Override
     public void delete(UUID uuid) {
         users = (ArrayList<User>) users.stream().filter(o -> !o.getUuid().equals(uuid)).toList();
     }

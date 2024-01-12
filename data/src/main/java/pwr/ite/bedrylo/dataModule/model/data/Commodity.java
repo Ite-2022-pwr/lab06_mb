@@ -16,7 +16,7 @@ import lombok.Setter;
         @NamedQuery(name = "Commodity.FindByReceiptNull", query = "select c from Commodity c where c.receipt is null"),
         @NamedQuery(name = "Commodity.Available", query = "select c from Commodity c where c.inWarehouse = true"),
         @NamedQuery(name = "Commodity.UpdateInWarehouseByUuid", query = "update Commodity c set c.inWarehouse = :inWarehouse where c.uuid = :uuid"),
-        @NamedQuery(name = "Commodity.UpdateReceiptByUuid", query = "update Commodity c set c.receipt = :receipt, c.inWarehouse = :inWarehouse where c.uuid = :uuid")
+        @NamedQuery(name = "Commodity.UpdateReceiptByUuid", query = "update Commodity c set c.receipt = :receipt, c.inWarehouse = :inWarehouse where c.uuid = :uuid"),
 })
 public class Commodity extends BaseEntity {
 
