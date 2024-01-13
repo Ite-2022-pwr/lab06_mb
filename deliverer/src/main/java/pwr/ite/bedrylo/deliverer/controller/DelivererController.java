@@ -51,7 +51,7 @@ public class DelivererController {
     
     private BaseServer server;
     
-    private RequestHandler requestHandler = new DelivererLogic();
+    private DelivererLogic requestHandler = new DelivererLogic();
     
     private UserDto activeUser;
     
@@ -81,6 +81,7 @@ public class DelivererController {
                 latestResponse = client.sendMessage(request);
                 if (latestResponse.getData() != null){
                     activeUser = (UserDto) latestResponse.getData();
+                    requestHandler.setActiveUser(activeUser);
                 }
                 System.out.println(latestResponse);
                 client.stop();

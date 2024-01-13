@@ -241,7 +241,7 @@ public class CustomerController {
             System.out.println("Brak dostepnych sprzedawcow");
             return;
         }
-        Request request = new Request(SellerInterfaceActions.CLIENT_ACCEPT_ORDER, order);
+        Request request = new Request(SellerInterfaceActions.CUSTOMER_ACCEPT_ORDER, order);
         runLater(() -> {
             try {
                 baseClient = new BaseClient(availableSeller.getHost(), availableSeller.getPort());
@@ -365,34 +365,9 @@ public class CustomerController {
         System.out.println(activeUser.getReceipts());
         DataMiddleman.getReceipts().clear();
         DataMiddleman.getReceipts().addAll(activeUser.getReceipts());
-        receiptTable.itemsProperty().bind(receiptsTableProperty);
+        receiptTable.itemsProperty().bindBidirectional(receiptsTableProperty);
     }
     
-//    private UserDto getFreeUserWithRole(Role role){
-//        runLater(() -> {
-//            try {
-//                baseClient = new BaseClient(keeperHost, keeperPort);
-//                Object[] data = {0, role};
-//                latestResponse = baseClient.sendMessage(new Request(KeeperInterfaceActions.GET_INFO, data));
-//                System.out.println(latestResponse);
-//                if (latestResponse.getData() != null){
-//                    UserDto responseUser = (UserDto) latestResponse.getData();
-//                    if (responseUser.getUuid() != null){
-//                        if (role.equals(Role.SELLER)){
-//                            availableSeller = responseUser;
-//                        } else {
-//                            availableDeliverer = responseUser;
-//                        }
-//                    }
-//                }
-//                baseClient.stop();
-//                baseClient = null;
-//            } catch (Exception e) {
-//                throw new RuntimeException(e);
-//            }
-//        });
-//        return (UserDto) latestResponse.getData();
-//    }
     
     private UserDto getFreeUserWithRole(Role role){
         try {
