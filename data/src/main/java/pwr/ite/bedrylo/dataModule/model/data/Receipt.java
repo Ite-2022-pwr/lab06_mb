@@ -16,14 +16,13 @@ import java.util.UUID;
         @NamedQuery(name = "Receipt.FindByUuid", query = "select r from Receipt r where r.uuid = :uuid"),
         @NamedQuery(name = "Receipt.Delete", query = "delete from Receipt r where r.uuid = :uuid")
 })
-public class Receipt extends BaseEntity{
-    
+public class Receipt extends BaseEntity {
+
     @Column(name = "userUuid")
     private UUID userUuid;
-    
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "receipt")
+
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "receipt")
     private List<Commodity> commodities;
-    
-    
+
 
 }

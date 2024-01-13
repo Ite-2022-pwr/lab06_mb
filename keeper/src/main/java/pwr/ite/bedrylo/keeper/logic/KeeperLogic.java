@@ -38,17 +38,17 @@ public class KeeperLogic implements RequestHandler {
     private static UserService userService;
 
     private static UserRepository userRepository;
-    
+
     private static CommodityService commodityService;
-    
+
     private static CommodityRepository commodityRepository;
-    
+
     private static ReceiptService receiptService;
-    
+
     private static ReceiptRepository receiptRepository;
-    
+
     private static Queue<Order> orderQueue;
-    
+
 
     public static RequestHandler getInstance() {
         if (instance == null) {
@@ -75,7 +75,7 @@ public class KeeperLogic implements RequestHandler {
         int r = -1;
         try {
             r = client.read(buffer);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("kaput");
             client.close();
         }
@@ -91,7 +91,7 @@ public class KeeperLogic implements RequestHandler {
                     response = new Request(ResponseType.REGISTER, register((UserDto) request.getData()));
                     break;
                 case "LOGIN":
-                    response = new Request(ResponseType.LOGIN, login((UserDto)request.getData()));
+                    response = new Request(ResponseType.LOGIN, login((UserDto) request.getData()));
                     break;
                 case "UNREGISTER":
                     response = new Request(ResponseType.UNREGISTER, unregister((UserDto) request.getData()));
@@ -128,21 +128,21 @@ public class KeeperLogic implements RequestHandler {
     }
 
     private List<ReceiptDto> getReceipsts(UserDto data) {
-        if (data != null && data.getUuid() != null){
+        if (data != null && data.getUuid() != null) {
             List<Receipt> receipts = receiptRepository.findByUserUuid(data.getUuid());
-            List<ReceiptDto> receiptDtos = receipts.stream().map(o->receiptService.createReceiptDtoFromReceipt(o)).toList();
+            List<ReceiptDto> receiptDtos = receipts.stream().map(o -> receiptService.createReceiptDtoFromReceipt(o)).toList();
             return receiptDtos;
         }
         return null;
     }
 
     private Object login(UserDto data) {
-        if (data != null && data.getUuid() != null){
+        if (data != null && data.getUuid() != null) {
             User user = userRepository.findByUuid(data.getUuid());
             boolean roleMatch = user.getRole() == data.getRole();
             boolean changedHost = !user.getHost().equals(data.getHost());
             boolean changedPort = user.getPort() != data.getPort();
-            if (roleMatch && ( changedHost||changedPort )) {
+            if (roleMatch && (changedHost || changedPort)) {
                 user = userRepository.updateHostAndPortByUuid(data.getUuid(), data.getHost(), data.getPort());
             }
             return user != null ? userService.createDtoFromUser(user) : null;
@@ -151,11 +151,11 @@ public class KeeperLogic implements RequestHandler {
     }
 
     private Object putOrder(Order order) {
-        if (order == null){
+        if (order == null) {
             return null;
         }
         orderQueue.add(order);
-        for (CommodityDto commodityDto: order.getCommodityDtos()){
+        for (CommodityDto commodityDto : order.getCommodityDtos()) {
             commodityRepository.updateInWarehouseByUuid(commodityDto.getUuid(), false);
         }
         return order.getCommodityDtos();
@@ -163,10 +163,9 @@ public class KeeperLogic implements RequestHandler {
 
     private Object getOffer() {
         List<Commodity> availableCommodities = commodityRepository.findAvailable();
-        if (!availableCommodities.isEmpty())
-        {
+        if (!availableCommodities.isEmpty()) {
             List<CommodityDto> offer = new ArrayList<>();
-            for (Commodity commodity: availableCommodities) {
+            for (Commodity commodity : availableCommodities) {
                 offer.add(commodityService.createCommodityDTOFromCommodity(commodity));
             }
             return offer;
@@ -178,11 +177,11 @@ public class KeeperLogic implements RequestHandler {
         UserDto userDto = (UserDto) order[0];
         userRepository.updateBusyByUuid(userDto.getUuid(), true);
         ReturningOrder returningOrder = (ReturningOrder) order[1];
-        for (CommodityDto commodityDto :returningOrder.getReturningCommodityDtos()) {
+        for (CommodityDto commodityDto : returningOrder.getReturningCommodityDtos()) {
             commodityRepository.updateInWarehouseByUuid(commodityDto.getUuid(), true);
         }
         if (userDto.getRole() == Role.SELLER) {
-            List<CommodityDto> commodities =returningOrder.getCommodityDtos();
+            List<CommodityDto> commodities = returningOrder.getCommodityDtos();
             ReceiptDto receiptDto = new ReceiptDto(returningOrder.getUserUuid(), commodities);
             receiptRepository.save(receiptService.createReceiptFromDto(receiptDto));
             userRepository.updateBusyByUuid(userDto.getUuid(), false);
@@ -195,11 +194,11 @@ public class KeeperLogic implements RequestHandler {
     private Order getOrder(UserDto userDto) {
         userRepository.updateBusyByUuid(userDto.getUuid(), true);
         Order order = orderQueue.poll();
-        if (order == null){
+        if (order == null) {
             userRepository.updateBusyByUuid(userDto.getUuid(), false);
             return order;
         }
-        for (CommodityDto commodityDto: order.getCommodityDtos()){
+        for (CommodityDto commodityDto : order.getCommodityDtos()) {
             commodityRepository.updateInWarehouseByUuid(commodityDto.getUuid(), false);
         }
         userRepository.updateBusyByUuid(userDto.getUuid(), false);
@@ -208,15 +207,15 @@ public class KeeperLogic implements RequestHandler {
 
     private UserDto getInfo(Object uuid, Role role) {
         UserDto userDto = null;
-        if (uuid.getClass() == UUID.class){
+        if (uuid.getClass() == UUID.class) {
             userDto = userService.createDtoFromUser(userRepository.findByUuid((UUID) uuid));
-        } else if (uuid.getClass() == Integer.class &&(Integer) uuid == 0) {
+        } else if (uuid.getClass() == Integer.class && (Integer) uuid == 0) {
             List<User> users = userRepository.findByRole(role);
-            if (users.isEmpty()){
+            if (users.isEmpty()) {
                 return null;
             }
-            for (User user: users){
-                if (!user.isBusy()){
+            for (User user : users) {
+                if (!user.isBusy()) {
                     userDto = userService.createDtoFromUser(user);
                     return userDto;
                 }
@@ -228,19 +227,19 @@ public class KeeperLogic implements RequestHandler {
     }
 
     private UserDto register(UserDto userDto) {
-        if (userDto!= null){
-            return userService.createDtoFromUser(userRepository.save(userService.createUserFromDto(userDto)));    
+        if (userDto != null) {
+            return userService.createDtoFromUser(userRepository.save(userService.createUserFromDto(userDto)));
         }
         return null;
     }
 
     private UserDto unregister(UserDto userDto) {
-        if (userDto!= null){
+        if (userDto != null) {
             System.out.println(userDto.getUuid());
             userRepository.delete(userDto.getUuid());
             return userDto;
         }
         return null;
-        
+
     }
 }

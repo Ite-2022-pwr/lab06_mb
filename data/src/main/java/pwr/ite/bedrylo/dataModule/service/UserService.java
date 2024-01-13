@@ -42,7 +42,7 @@ public class UserService {
 
 
     public UserDto createDtoFromUser(User user) {
-        Set<ReceiptDto> receiptDtos = user.getReceipts().stream().map(o->ReceiptService.getInstance().createReceiptDtoFromReceipt(o)).collect(Collectors.toSet());
+        Set<ReceiptDto> receiptDtos = user.getReceipts().stream().map(o -> ReceiptService.getInstance().createReceiptDtoFromReceipt(o)).collect(Collectors.toSet());
         return new UserDto(user.getPort(), user.getHost(), user.getRole(), user.isBusy(), user.getUuid(), receiptDtos);
     }
 }

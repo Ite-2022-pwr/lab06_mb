@@ -66,7 +66,8 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>pwr.ite.bedrylo.deliverer/pwr.ite.bedrylo.deliverer.DelivererApplication</mainClass>
+                            <mainClass>pwr.ite.bedrylo.deliverer/pwr.ite.bedrylo.deliverer.DelivererApplication
+                            </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

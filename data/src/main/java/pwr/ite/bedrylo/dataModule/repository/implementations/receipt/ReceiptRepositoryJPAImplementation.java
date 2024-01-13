@@ -3,31 +3,28 @@ package pwr.ite.bedrylo.dataModule.repository.implementations.receipt;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import pwr.ite.bedrylo.dataModule.model.data.BaseEntity;
 import pwr.ite.bedrylo.dataModule.model.data.Commodity;
 import pwr.ite.bedrylo.dataModule.model.data.Receipt;
-import pwr.ite.bedrylo.dataModule.model.data.User;
 import pwr.ite.bedrylo.dataModule.repository.ReceiptRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class ReceiptRepositoryJPAImplementation implements ReceiptRepository {
 
     private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("database");
-    
-   
+
+
     @Override
     public Receipt save(Receipt receipt) {
-        if (receipt.getUuid() == null){
+        if (receipt.getUuid() == null) {
             receipt.generateUuid();
         }
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
             entityManager.merge(receipt);
-            for(Commodity commodity: receipt.getCommodities()){
+            for (Commodity commodity : receipt.getCommodities()) {
                 entityManager.createNamedQuery("Commodity.UpdateReceiptByUuid")
                         .setParameter("receipt", receipt)
                         .setParameter("uuid", commodity.getUuid())

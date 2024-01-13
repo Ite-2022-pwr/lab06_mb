@@ -18,8 +18,8 @@ public class CommodityService {
         commodity.setUuid(commodityDto.getUuid());
         commodity.setName(commodityDto.getName());
         commodity.setInWarehouse(true);
-        if (commodityDto.getReceiptDto() != null){
-            commodity.setReceipt(ReceiptService.getInstance().createReceiptFromDto(commodityDto.getReceiptDto()));    
+        if (commodityDto.getReceiptDto() != null) {
+            commodity.setReceipt(ReceiptService.getInstance().createReceiptFromDto(commodityDto.getReceiptDto()));
         }
         commodity.setPrice(commodityDto.getPrice());
         return commodity;

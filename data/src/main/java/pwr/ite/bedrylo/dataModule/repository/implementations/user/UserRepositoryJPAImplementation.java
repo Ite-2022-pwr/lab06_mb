@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class UserRepositoryJPAImplementation implements UserRepository {
     private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("database");
-    
+
     //private EntityManager entityManager = entityManagerFactory.createEntityManager();
     // TODO refactor this shit
 
@@ -23,7 +23,7 @@ public class UserRepositoryJPAImplementation implements UserRepository {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
-            if (user.getUuid()==null){
+            if (user.getUuid() == null) {
                 user.generateUuid();
             }
             entityManager.persist(user);
@@ -45,7 +45,7 @@ public class UserRepositoryJPAImplementation implements UserRepository {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
             entityManager.flush();
-            
+
             User user = entityManager.find(User.class, uuid);
             Hibernate.initialize(user.getReceipts());
             entityManager.getTransaction().commit();
@@ -190,15 +190,41 @@ public class UserRepositoryJPAImplementation implements UserRepository {
         return null;
     }
 
+//    @Override
+//    public void delete(UUID uuid) {
+//        try {
+//            EntityManager entityManager = entityManagerFactory.createEntityManager();
+//            entityManager.getTransaction().begin();
+//            entityManager.createNamedQuery("User.Delete")
+//                    .setParameter("uuid", uuid)
+//                    .executeUpdate();
+//            entityManager.flush();
+//            entityManager.getTransaction().commit();
+//            entityManager.close();
+//        } catch (Exception e) {
+//            System.out.println(e.getLocalizedMessage());
+//        }
+//    }
+
     @Override
     public void delete(UUID uuid) {
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
-            entityManager.createNamedQuery("User.Delete")
-                    .setParameter("uuid", uuid)
-                    .executeUpdate();
-            entityManager.flush();
+
+            // Check if the user exists before deleting
+            User userToDelete = findByUuid(uuid);
+
+            if (userToDelete != null) {
+                entityManager.createNamedQuery("User.Delete")
+                        .setParameter("uuid", uuid)
+                        .executeUpdate();
+                entityManager.flush();
+                System.out.println("User deleted successfully: " + userToDelete);
+            } else {
+                System.out.println("User not found with UUID: " + uuid);
+            }
+
             entityManager.getTransaction().commit();
             entityManager.close();
         } catch (Exception e) {

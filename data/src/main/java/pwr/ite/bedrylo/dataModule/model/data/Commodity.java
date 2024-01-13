@@ -26,12 +26,12 @@ public class Commodity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receipt")
     private Receipt receipt;
-    
+
     @Column(name = "price")
     private double price;
-    
+
     @Column(name = "inWarehouse")
     private boolean inWarehouse;
-    
-    
+
+
 }

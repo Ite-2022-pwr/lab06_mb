@@ -5,7 +5,6 @@ import pwr.ite.bedrylo.dataModule.model.request.Request;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
@@ -31,7 +30,7 @@ public class BaseClient {
     public void stop() throws IOException {
         this.buffer = null;
         this.client.close();
-        
+
     }
 
     public Request sendMessage(Request request) {

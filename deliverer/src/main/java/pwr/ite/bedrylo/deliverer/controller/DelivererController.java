@@ -4,11 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import pwr.ite.bedrylo.dataModule.dto.ReceiptDto;
 import pwr.ite.bedrylo.dataModule.dto.UserDto;
 import pwr.ite.bedrylo.dataModule.model.data.Order;
-import pwr.ite.bedrylo.dataModule.model.data.ReturningOrder;
 import pwr.ite.bedrylo.dataModule.model.data.enums.Role;
 import pwr.ite.bedrylo.dataModule.model.request.Request;
 import pwr.ite.bedrylo.dataModule.model.request.enums.CustomerInterfaceActions;
@@ -16,10 +13,6 @@ import pwr.ite.bedrylo.dataModule.model.request.enums.KeeperInterfaceActions;
 import pwr.ite.bedrylo.deliverer.logic.DelivererLogic;
 import pwr.ite.bedrylo.networking.BaseClient;
 import pwr.ite.bedrylo.networking.BaseServer;
-import pwr.ite.bedrylo.deliverer.data.DataMiddleman;
-import pwr.ite.bedrylo.networking.RequestHandler;
-
-import java.util.UUID;
 
 import static javafx.application.Platform.runLater;
 
@@ -41,29 +34,29 @@ public class DelivererController {
     private Button getCustomerInfoButton;
     @FXML
     private Button deliverOrderButton;
-    
+
     private BaseClient client;
-    
+
     private String keeperHost = "localhost";
-    
+
     private int keeperPort = 2137;
-    
+
     private String host;
-    
+
     private int port;
-    
+
     private BaseServer server;
-    
+
     private DelivererLogic requestHandler = new DelivererLogic();
-    
+
     private UserDto activeUser;
-    
+
     private UserDto activeCustomer;
-    
+
     private Request latestResponse;
-    
+
     private Order activeOrder;
-    
+
     public void initialize() {
         takeOrderButton.setDisable(true);
         getCustomerInfoButton.setDisable(true);
@@ -82,7 +75,7 @@ public class DelivererController {
             try {
                 client = new BaseClient(keeperHost, keeperPort);
                 latestResponse = client.sendMessage(request);
-                if (latestResponse.getData() != null){
+                if (latestResponse.getData() != null) {
                     activeUser = (UserDto) latestResponse.getData();
                     requestHandler.setActiveUser(activeUser);
                 }
@@ -100,7 +93,7 @@ public class DelivererController {
             throw new RuntimeException(e);
         }
     }
-    
+
     @FXML
     private void onStopButtonClick() {
         infoTextLabel.setText("Deliverer is stopped");
@@ -120,7 +113,7 @@ public class DelivererController {
             }
         });
     }
-    
+
     @FXML
     private void onTakeOrderButtonClick() {
         Request request = new Request(KeeperInterfaceActions.DELIVERER_GET_ORDER, activeUser);
@@ -128,9 +121,9 @@ public class DelivererController {
             try {
                 client = new BaseClient(keeperHost, keeperPort);
                 latestResponse = client.sendMessage(request);
-                if (latestResponse.getData() != null){
+                if (latestResponse.getData() != null) {
                     activeOrder = (Order) latestResponse.getData();
-                    if (activeOrder != null){
+                    if (activeOrder != null) {
                         takeOrderButton.setDisable(true);
                         getCustomerInfoButton.setDisable(false);
                     }
@@ -143,7 +136,7 @@ public class DelivererController {
             }
         });
     }
-    
+
 
     @FXML
     public void onGetCustomerInfoButtonClick() {
@@ -152,7 +145,7 @@ public class DelivererController {
             try {
                 client = new BaseClient(keeperHost, keeperPort);
                 latestResponse = client.sendMessage(request);
-                if (latestResponse.getData() != null){
+                if (latestResponse.getData() != null) {
                     activeCustomer = (UserDto) latestResponse.getData();
                     getCustomerInfoButton.setDisable(true);
                     deliverOrderButton.setDisable(false);
@@ -172,8 +165,8 @@ public class DelivererController {
             try {
                 client = new BaseClient(activeCustomer.getHost(), activeCustomer.getPort());
                 latestResponse = client.sendMessage(request);
-                if (latestResponse.getData() != null){
-                    activeOrder =null;
+                if (latestResponse.getData() != null) {
+                    activeOrder = null;
                     deliverOrderButton.setDisable(true);
                     takeOrderButton.setDisable(false);
                 }
@@ -186,5 +179,5 @@ public class DelivererController {
         });
     }
 
-    
+
 }

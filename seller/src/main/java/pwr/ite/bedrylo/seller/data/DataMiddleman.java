@@ -12,7 +12,7 @@ public class DataMiddleman {
     @Setter
     @Getter
     private static SimpleObjectProperty<ReturningOrder> currentOrder = new SimpleObjectProperty<ReturningOrder>();
-    
+
     @Setter
     @Getter
     private static SimpleObjectProperty<ReceiptDto> currentReceipt = new SimpleObjectProperty<ReceiptDto>();

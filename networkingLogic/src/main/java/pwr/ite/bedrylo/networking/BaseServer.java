@@ -41,8 +41,6 @@ public class BaseServer implements Runnable {
         serverSocket.register(selector, SelectionKey.OP_ACCEPT);
         ByteBuffer buffer = ByteBuffer.allocate(65536);
 
-        System.out.println("gówno ożyło");
-
         while (true) {
             selector.select();
             Set<SelectionKey> selectedKeys = selector.selectedKeys();

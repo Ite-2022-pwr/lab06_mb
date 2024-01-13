@@ -13,19 +13,19 @@ public class ReceiptService {
         }
         return instance;
     }
-    
-    public Receipt createReceiptFromDto(ReceiptDto receiptDto){
+
+    public Receipt createReceiptFromDto(ReceiptDto receiptDto) {
         Receipt receipt = new Receipt();
-        if (receiptDto.getUuid() != null){
-            receipt.setUuid(receiptDto.getUuid());    
+        if (receiptDto.getUuid() != null) {
+            receipt.setUuid(receiptDto.getUuid());
         }
         receipt.setUserUuid(receiptDto.getUserUuid());
-        receipt.setCommodities(receiptDto.getCommodities().stream().map(o->CommodityService.getInstance().createCommodityFromDTO(o)).toList());
+        receipt.setCommodities(receiptDto.getCommodities().stream().map(o -> CommodityService.getInstance().createCommodityFromDTO(o)).toList());
         return receipt;
     }
-    
-    public ReceiptDto createReceiptDtoFromReceipt(Receipt receipt){
-        return new ReceiptDto(receipt.getUuid(), receipt.getUserUuid(), receipt.getCommodities().stream().map(o->CommodityService.getInstance().createCommodityDTOFromCommodity(o)).toList());
+
+    public ReceiptDto createReceiptDtoFromReceipt(Receipt receipt) {
+        return new ReceiptDto(receipt.getUuid(), receipt.getUserUuid(), receipt.getCommodities().stream().map(o -> CommodityService.getInstance().createCommodityDTOFromCommodity(o)).toList());
     }
-    
+
 }

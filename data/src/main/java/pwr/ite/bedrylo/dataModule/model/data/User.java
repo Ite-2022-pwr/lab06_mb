@@ -37,8 +37,8 @@ public class User extends BaseEntity {
 
     @Column(name = "busy", nullable = false)
     private boolean busy;
-    
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "userUuid")
+
+    @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "userUuid")
     private Set<Receipt> receipts;
 
     @Override

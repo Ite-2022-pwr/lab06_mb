@@ -2,13 +2,11 @@ package pwr.ite.bedrylo.dataModule.dto;
 
 import lombok.Value;
 import lombok.experimental.Accessors;
-import pwr.ite.bedrylo.dataModule.model.data.Receipt;
 import pwr.ite.bedrylo.dataModule.model.data.User;
 import pwr.ite.bedrylo.dataModule.model.data.enums.Role;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -34,7 +32,7 @@ public class UserDto implements Serializable {
         this.receipts = new HashSet<>();
     }
 
-    public UserDto(int port, String host, Role role, Boolean busy, UUID uuid , Set<ReceiptDto> receipts) {
+    public UserDto(int port, String host, Role role, Boolean busy, UUID uuid, Set<ReceiptDto> receipts) {
         this.port = port;
         this.host = host;
         this.role = role;
@@ -60,5 +58,5 @@ public class UserDto implements Serializable {
         this.uuid = uuid;
         this.receipts = new HashSet<>();
     }
-    
+
 }

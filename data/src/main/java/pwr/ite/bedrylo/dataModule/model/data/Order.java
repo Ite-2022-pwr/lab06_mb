@@ -11,14 +11,14 @@ import java.util.UUID;
 public class Order implements Serializable {
     private UUID userUuid;
     private List<CommodityDto> commodityDtos;
-    
-    public Order(){
-        
+
+    public Order() {
+
     }
-    
-    public Order(UUID userUuid, List<CommodityDto> commodityDtos){
+
+    public Order(UUID userUuid, List<CommodityDto> commodityDtos) {
         this.userUuid = userUuid;
         this.commodityDtos = commodityDtos;
     }
-    
+
 }

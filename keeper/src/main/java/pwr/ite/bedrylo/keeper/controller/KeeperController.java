@@ -14,7 +14,7 @@ public class KeeperController {
 
     @FXML
     private Label welcomeText;
-    
+
     @FXML
     private Button helloButton;
 
@@ -31,6 +31,6 @@ public class KeeperController {
         });
         welcomeText.setText("serwer wstał");
         helloButton.setDisable(true);
-        
+
     }
 }

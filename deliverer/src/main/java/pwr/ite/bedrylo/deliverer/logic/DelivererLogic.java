@@ -3,17 +3,11 @@ package pwr.ite.bedrylo.deliverer.logic;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import pwr.ite.bedrylo.dataModule.dto.CommodityDto;
 import pwr.ite.bedrylo.dataModule.dto.UserDto;
-import pwr.ite.bedrylo.dataModule.model.data.Order;
 import pwr.ite.bedrylo.dataModule.model.data.ReturningOrder;
 import pwr.ite.bedrylo.dataModule.model.request.Request;
 import pwr.ite.bedrylo.dataModule.model.request.enums.KeeperInterfaceActions;
 import pwr.ite.bedrylo.dataModule.model.request.enums.ResponseType;
-import pwr.ite.bedrylo.dataModule.repository.CommodityRepository;
-import pwr.ite.bedrylo.dataModule.repository.UserRepository;
-import pwr.ite.bedrylo.dataModule.repository.implementations.commodity.CommodityRepositoryJPAImplementation;
-import pwr.ite.bedrylo.dataModule.repository.implementations.user.UserRepositoryJPAImplementation;
 import pwr.ite.bedrylo.deliverer.data.DataMiddleman;
 import pwr.ite.bedrylo.networking.BaseClient;
 import pwr.ite.bedrylo.networking.RequestHandler;
@@ -22,20 +16,18 @@ import pwr.ite.bedrylo.networking.Util;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
-import java.util.List;
 
 public class DelivererLogic implements RequestHandler {
-    
+
     @Setter
     @Getter
     private UserDto activeUser;
-    
+
     private String keeperHost = "localhost";
-    
+
     private int keeperPort = 2137;
-    
-    private CommodityRepository commodityRepository = new CommodityRepositoryJPAImplementation();
-    private UserRepository userRepository = new UserRepositoryJPAImplementation();
+
+
     @SneakyThrows
     @Override
     public void processRequest(ByteBuffer buffer, SelectionKey key) {
@@ -46,7 +38,7 @@ public class DelivererLogic implements RequestHandler {
         int r = -1;
         try {
             r = client.read(buffer);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("kaput");
             client.close();
         }
@@ -78,7 +70,7 @@ public class DelivererLogic implements RequestHandler {
         if (data != null) {
             try {
                 BaseClient client = new BaseClient(keeperHost, keeperPort);
-                Request latestResponse = client.sendMessage(new Request(KeeperInterfaceActions.DELIVERER_RETURN_ORDER, new Object[] {activeUser, data}));
+                Request latestResponse = client.sendMessage(new Request(KeeperInterfaceActions.DELIVERER_RETURN_ORDER, new Object[]{activeUser, data}));
                 System.out.println(latestResponse);
                 DataMiddleman.getCurrentOrder().set(null);
                 client.stop();

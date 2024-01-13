@@ -22,7 +22,7 @@ public interface UserRepository {
     List<User> findByBusyStatus(Boolean busy);
 
     User updateBusyByUuid(UUID uuid, Boolean busy);
-    
+
     User updateHostAndPortByUuid(UUID uuid, String host, int port);
 
     void delete(UUID uuid);

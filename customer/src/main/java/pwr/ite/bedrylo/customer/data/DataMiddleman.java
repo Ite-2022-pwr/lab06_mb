@@ -14,54 +14,54 @@ public class DataMiddleman {
     private static ObservableList<ReceiptDto> receipts = FXCollections.observableArrayList();
 
     private static ObservableList<CommodityDto> returnCommodities = FXCollections.observableArrayList();
-    
-    
+
+
     public static ObservableList<CommodityDto> getCartCommodities() {
         return cartCommodities;
     }
-    
-    public static void addCommodity(CommodityDto commodity){
+
+    public static void addCommodity(CommodityDto commodity) {
         cartCommodities.add(commodity);
     }
-    
-    public static void removeCommodity(CommodityDto commodity){
+
+    public static void removeCommodity(CommodityDto commodity) {
         cartCommodities.remove(commodity);
     }
-    
-    public static void clearCart(){
+
+    public static void clearCart() {
         cartCommodities.clear();
     }
-    
+
     public static ObservableList<ReceiptDto> getReceipts() {
         return receipts;
     }
-    
-    public static void addReceipt(ReceiptDto receipt){
+
+    public static void addReceipt(ReceiptDto receipt) {
         receipts.add(receipt);
     }
-    
-    public static void removeReceipt(ReceiptDto receipt){
+
+    public static void removeReceipt(ReceiptDto receipt) {
         receipts.remove(receipt);
     }
-    
-    public static void clearReceipts(){
+
+    public static void clearReceipts() {
         receipts.clear();
     }
-    
+
     public static ObservableList<CommodityDto> getReturnCommodities() {
         return returnCommodities;
     }
-    
-    public static void addReturnCommodity(CommodityDto commodity){
+
+    public static void addReturnCommodity(CommodityDto commodity) {
         returnCommodities.add(commodity);
     }
-    
-    public static void removeReturnCommodity(CommodityDto commodity){
+
+    public static void removeReturnCommodity(CommodityDto commodity) {
         returnCommodities.remove(commodity);
     }
-    
-    public static void clearReturnCommodities(){
+
+    public static void clearReturnCommodities() {
         returnCommodities.clear();
     }
-    
+
 }

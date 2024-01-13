@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CommodityRepository {
-    
+
     Commodity save(Commodity commodity);
-    
+
     List<Commodity> findAvailable();
 
     List<Commodity> findByName(String name);
@@ -19,7 +19,7 @@ public interface CommodityRepository {
     Commodity findByUuid(UUID uuid);
 
     Commodity upadteReceiptByUuid(UUID uuid, Receipt receipt);//!remove ?
-    
+
     Commodity updateInWarehouseByUuid(UUID uuid, boolean inWarehouse);
 
     void delete(UUID uuid);

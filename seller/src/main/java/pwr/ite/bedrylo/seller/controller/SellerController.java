@@ -14,7 +14,6 @@ import pwr.ite.bedrylo.dataModule.model.request.enums.CustomerInterfaceActions;
 import pwr.ite.bedrylo.dataModule.model.request.enums.KeeperInterfaceActions;
 import pwr.ite.bedrylo.networking.BaseClient;
 import pwr.ite.bedrylo.networking.BaseServer;
-import pwr.ite.bedrylo.networking.RequestHandler;
 import pwr.ite.bedrylo.seller.data.DataMiddleman;
 import pwr.ite.bedrylo.seller.logic.SellerLogic;
 
@@ -50,7 +49,7 @@ public class SellerController {
     private UserDto activeUser;
 
     private UserDto activeCustomer;
-    
+
     private Request latestResponse;
 
     @FXML
@@ -65,7 +64,7 @@ public class SellerController {
             try {
                 client = new BaseClient(keeperHost, keeperPort);
                 latestResponse = client.sendMessage(request);
-                if (latestResponse.getData() != null){
+                if (latestResponse.getData() != null) {
                     activeUser = (UserDto) latestResponse.getData();
                     requestHandler.setActiveUser(activeUser);
                 }
@@ -89,12 +88,12 @@ public class SellerController {
         infoTextLabel.setText("Seller is stopped");
         startButton.setDisable(false);
         server = null;
-        Request request = new Request(KeeperInterfaceActions.UNREGISTER, new UserDto(port, host, Role.SELLER));
+        Request request = new Request(KeeperInterfaceActions.UNREGISTER, activeUser);
         runLater(() -> {
             try {
                 client = new BaseClient(keeperHost, keeperPort);
                 latestResponse = client.sendMessage(request);
-                if (latestResponse.getData() != null){
+                if (latestResponse.getData() != null) {
                     activeUser = (UserDto) latestResponse.getData();
                     requestHandler.setActiveUser(activeUser);
                 }
@@ -113,7 +112,7 @@ public class SellerController {
             public void changed(ObservableValue<? extends ReceiptDto> observable, ReceiptDto oldValue, ReceiptDto newValue) {
                 runLater(() -> {
                     try {
-                        Request request = new Request(KeeperInterfaceActions.GET_INFO,new Object[]{newValue.getUserUuid(), null});
+                        Request request = new Request(KeeperInterfaceActions.GET_INFO, new Object[]{newValue.getUserUuid(), null});
                         client = new BaseClient(keeperHost, keeperPort);
                         latestResponse = client.sendMessage(request);
                         sendReceiptToCustomer((UserDto) latestResponse.getData());
@@ -125,7 +124,7 @@ public class SellerController {
                     }
                 });
             }
-            
+
         });
     }
 

@@ -19,7 +19,7 @@ public class CommodityRepositoryJPAImplementation implements CommodityRepository
         try {
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
-            if (commodity.getUuid() == null){
+            if (commodity.getUuid() == null) {
                 commodity.generateUuid();
             }
             entityManager.persist(commodity);
