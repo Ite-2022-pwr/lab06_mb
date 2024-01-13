@@ -26,7 +26,7 @@ public class PopulateDb {
         ReceiptService receiptService = ReceiptService.getInstance();
         CommodityService commodityService = CommodityService.getInstance();
         
-        userRepository.save(userService.createUserFromDto(new UserDto(2137, "test1klient", Role.CLIENT, UUID.fromString("4927fca0-b14c-4a2e-bee7-274dbb95325f"))));
+//        userRepository.save(userService.createUserFromDto(new UserDto(2137, "test1klient", Role.CLIENT, UUID.fromString("4927fca0-b14c-4a2e-bee7-274dbb95325f"))));
 //        userRepository.save(userService.createUserFromDto(new UserDto(69, "test2dostawca", Role.DELIVERER)));
 //        userRepository.save(userService.createUserFromDto(new UserDto(420, "test3sprzedawca", Role.SELLER)));
 //        
@@ -36,10 +36,12 @@ public class PopulateDb {
 //        commodityDtos.add(new CommodityDto("towar2", null, UUID.randomUUID(), 12));
 //        commodityRepository.save(commodityService.createCommodityFromDTO(commodityDtos.get(0)));
 //        commodityRepository.save(commodityService.createCommodityFromDTO(commodityDtos.get(1)));
-//        commodityRepository.save(commodityService.createCommodityFromDTO(new CommodityDto("towar3", null, UUID.randomUUID(), 13)));
-//        commodityRepository.save(commodityService.createCommodityFromDTO(new CommodityDto("towar4", null, UUID.randomUUID(), 14)));
-//        commodityRepository.save(commodityService.createCommodityFromDTO(new CommodityDto("towar5", null, UUID.randomUUID(), 15)));
-//        commodityRepository.save(commodityService.createCommodityFromDTO(new CommodityDto("towar6", null, UUID.randomUUID(), 16)));
+        commodityRepository.save(commodityService.createCommodityFromDTO(new CommodityDto("towar1", null, UUID.randomUUID(), 11)));
+        commodityRepository.save(commodityService.createCommodityFromDTO(new CommodityDto("towar2", null, UUID.randomUUID(), 12)));
+        commodityRepository.save(commodityService.createCommodityFromDTO(new CommodityDto("towar3", null, UUID.randomUUID(), 13)));
+        commodityRepository.save(commodityService.createCommodityFromDTO(new CommodityDto("towar4", null, UUID.randomUUID(), 14)));
+        commodityRepository.save(commodityService.createCommodityFromDTO(new CommodityDto("towar5", null, UUID.randomUUID(), 15)));
+        commodityRepository.save(commodityService.createCommodityFromDTO(new CommodityDto("towar6", null, UUID.randomUUID(), 16)));
 //        receiptRepository.save(receiptService.createReceiptFromDto(new ReceiptDto(UUID.randomUUID(), commodityDtos)));
 //        
         

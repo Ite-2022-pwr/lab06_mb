@@ -67,6 +67,7 @@ public class ReceiptRepositoryJPAImplementation implements ReceiptRepository {
             List<Receipt> commodityList = entityManager.createNamedQuery("Receipt.FindByUserUuid", Receipt.class)
                     .setParameter("userUuid", userUuid)
                     .getResultList();
+            entityManager.getTransaction().commit();
             entityManager.close();
             return commodityList;
         } catch (Exception e) {

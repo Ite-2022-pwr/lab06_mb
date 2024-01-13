@@ -56,6 +56,7 @@ public class CommodityRepositoryJPAImplementation implements CommodityRepository
             List<Commodity> commodityList = entityManager.createNamedQuery("Commodity.FindByName", Commodity.class)
                     .setParameter("name", name)
                     .getResultList();
+            entityManager.getTransaction().commit();
             entityManager.close();
             return commodityList;
         } catch (Exception e) {
@@ -72,6 +73,7 @@ public class CommodityRepositoryJPAImplementation implements CommodityRepository
             List<Commodity> commodityList = entityManager.createNamedQuery("Commodity.FindByReceipt", Commodity.class)
                     .setParameter("receipt", receipt)
                     .getResultList();
+            entityManager.getTransaction().commit();
             entityManager.close();
             return commodityList;
         } catch (Exception e) {

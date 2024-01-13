@@ -118,7 +118,7 @@ public class KeeperLogic implements RequestHandler {
                     break;
                 case "CUSTOMER_GET_RECEIPTS":
                     response = new Request(ResponseType.GET_RECEIPTS, getReceipsts((UserDto) request.getData()));
-                    break;    
+                    break;
                 default:
                     System.out.println("nieznana akcja");
                     response = new Request(ResponseType.WRONG_REQUEST, null);

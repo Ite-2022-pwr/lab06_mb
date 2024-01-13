@@ -32,6 +32,11 @@ public class UserService {
         if (userDto.getUuid() != null) {
             user.setUuid(userDto.getUuid());
         }
+        if (userDto.getReceipts() != null) {
+            user.setReceipts(userDto.getReceipts().stream().map(o -> ReceiptService.getInstance().createReceiptFromDto(o)).collect(Collectors.toSet()));
+        } else {
+            user.setReceipts(Set.of());
+        }
         return user;
     }
 

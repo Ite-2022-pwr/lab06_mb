@@ -158,6 +158,11 @@
                         <Insets top="20.0" />
                      </VBox.margin>
                   </Button>
+                  <Button fx:id="refreshCartButton" contentDisplay="RIGHT" disable="true" mnemonicParsing="false" onMouseClicked="#onRefreshCartButtonClick" text="Odśwież">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
@@ -176,7 +181,7 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                   </TableView>
-                  <Button fx:id="returnButton" disable="true" mnemonicParsing="false" text="zwróć">
+                  <Button fx:id="returnButton" disable="true" mnemonicParsing="false" text="zwróć" onMouseClicked="#onReturnButtonClick">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
