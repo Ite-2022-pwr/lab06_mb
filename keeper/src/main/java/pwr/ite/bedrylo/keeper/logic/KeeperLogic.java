@@ -4,10 +4,7 @@ import lombok.SneakyThrows;
 import pwr.ite.bedrylo.dataModule.dto.CommodityDto;
 import pwr.ite.bedrylo.dataModule.dto.ReceiptDto;
 import pwr.ite.bedrylo.dataModule.dto.UserDto;
-import pwr.ite.bedrylo.dataModule.model.data.Commodity;
-import pwr.ite.bedrylo.dataModule.model.data.Order;
-import pwr.ite.bedrylo.dataModule.model.data.Receipt;
-import pwr.ite.bedrylo.dataModule.model.data.User;
+import pwr.ite.bedrylo.dataModule.model.data.*;
 import pwr.ite.bedrylo.dataModule.model.data.enums.Role;
 import pwr.ite.bedrylo.dataModule.model.request.Request;
 import pwr.ite.bedrylo.dataModule.model.request.enums.ResponseType;
@@ -104,11 +101,11 @@ public class KeeperLogic implements RequestHandler {
                     response = new Request(ResponseType.GET_INFO, getInfo(data[0], (Role) data[1]));
                     break;
                 case "DELIVERER_GET_ORDER":
-                    response = new Request(ResponseType.GET_ORDER, getOrder());
+                    response = new Request(ResponseType.GET_ORDER, getOrder((UserDto) request.getData()));
                     break;
                 case "DELIVERER_RETURN_ORDER":
                 case "SELLER_RETURN_ORDER":
-                    response = new Request(ResponseType.RETURN_ORDER, returnOrder((Order) request.getData()));
+                    response = new Request(ResponseType.RETURN_ORDER, returnOrder((Object[]) request.getData()));
                     break;
                 case "CUSTOMER_GET_OFFER":
                     response = new Request(ResponseType.GET_OFFER, getOffer());
@@ -177,21 +174,35 @@ public class KeeperLogic implements RequestHandler {
         return null;
     }
 
-    private Object returnOrder(Order order) {
-        for (CommodityDto commodityDto : order.getCommodityDtos()) {
+    private Object returnOrder(Object[] order) {
+        UserDto userDto = (UserDto) order[0];
+        userRepository.updateBusyByUuid(userDto.getUuid(), true);
+        ReturningOrder returningOrder = (ReturningOrder) order[1];
+        for (CommodityDto commodityDto :returningOrder.getReturningCommodityDtos()) {
             commodityRepository.updateInWarehouseByUuid(commodityDto.getUuid(), true);
         }
+        if (userDto.getRole() == Role.SELLER) {
+            List<CommodityDto> commodities =returningOrder.getCommodityDtos();
+            ReceiptDto receiptDto = new ReceiptDto(returningOrder.getUserUuid(), commodities);
+            receiptRepository.save(receiptService.createReceiptFromDto(receiptDto));
+            userRepository.updateBusyByUuid(userDto.getUuid(), false);
+            return receiptDto;
+        }
+        userRepository.updateBusyByUuid(userDto.getUuid(), false);
         return null;
     }
 
-    private Order getOrder() {
+    private Order getOrder(UserDto userDto) {
+        userRepository.updateBusyByUuid(userDto.getUuid(), true);
         Order order = orderQueue.poll();
         if (order == null){
+            userRepository.updateBusyByUuid(userDto.getUuid(), false);
             return order;
         }
         for (CommodityDto commodityDto: order.getCommodityDtos()){
             commodityRepository.updateInWarehouseByUuid(commodityDto.getUuid(), false);
         }
+        userRepository.updateBusyByUuid(userDto.getUuid(), false);
         return order;
     }
 

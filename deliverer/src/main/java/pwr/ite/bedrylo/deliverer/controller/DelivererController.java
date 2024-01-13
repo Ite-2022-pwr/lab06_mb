@@ -5,8 +5,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import pwr.ite.bedrylo.dataModule.dto.ReceiptDto;
 import pwr.ite.bedrylo.dataModule.dto.UserDto;
 import pwr.ite.bedrylo.dataModule.model.data.Order;
+import pwr.ite.bedrylo.dataModule.model.data.ReturningOrder;
 import pwr.ite.bedrylo.dataModule.model.data.enums.Role;
 import pwr.ite.bedrylo.dataModule.model.request.Request;
 import pwr.ite.bedrylo.dataModule.model.request.enums.CustomerInterfaceActions;
@@ -14,6 +16,7 @@ import pwr.ite.bedrylo.dataModule.model.request.enums.KeeperInterfaceActions;
 import pwr.ite.bedrylo.deliverer.logic.DelivererLogic;
 import pwr.ite.bedrylo.networking.BaseClient;
 import pwr.ite.bedrylo.networking.BaseServer;
+import pwr.ite.bedrylo.deliverer.data.DataMiddleman;
 import pwr.ite.bedrylo.networking.RequestHandler;
 
 import java.util.UUID;
@@ -120,20 +123,21 @@ public class DelivererController {
     
     @FXML
     private void onTakeOrderButtonClick() {
-        Request request = new Request(KeeperInterfaceActions.DELIVERER_GET_ORDER, null);
+        Request request = new Request(KeeperInterfaceActions.DELIVERER_GET_ORDER, activeUser);
         runLater(() -> {
             try {
                 client = new BaseClient(keeperHost, keeperPort);
                 latestResponse = client.sendMessage(request);
                 if (latestResponse.getData() != null){
                     activeOrder = (Order) latestResponse.getData();
-                    takeOrderButton.setDisable(true);
-                    getCustomerInfoButton.setDisable(false);
+                    if (activeOrder != null){
+                        takeOrderButton.setDisable(true);
+                        getCustomerInfoButton.setDisable(false);
+                    }
                 }
                 System.out.println(latestResponse);
                 client.stop();
                 client = null;
-                takeOrderButton.setDisable(true);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -181,4 +185,6 @@ public class DelivererController {
             }
         });
     }
+
+    
 }

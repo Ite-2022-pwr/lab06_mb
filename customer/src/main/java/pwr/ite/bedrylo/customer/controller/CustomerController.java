@@ -112,8 +112,7 @@ public class CustomerController {
     
     private Property<ObservableList<CommodityDto>> cartCommoditiesTableProperty;
     
-    private ObservableList<CommodityDto> returnCommodities = FXCollections.observableArrayList();
-    private Property<ObservableList<CommodityDto>> returnCommoditiesTableProperty = new SimpleObjectProperty<>(returnCommodities);
+    private Property<ObservableList<CommodityDto>> returnCommoditiesTableProperty;
     
     private Property<ObservableList<ReceiptDto>> receiptsTableProperty;
     
@@ -124,7 +123,6 @@ public class CustomerController {
     public void initialize(){
         offerTable.itemsProperty().bind(offerTableProperty);
         preOrderTable.itemsProperty().bind(preOrderTableProperty);
-        returnTable.itemsProperty().bind(returnCommoditiesTableProperty);
         receiptContentTable.itemsProperty().bind(receiptContentCommoditiesTableProperty);
         registerButtons.setDisable(false);
         loginButton.setDisable(false);
@@ -218,7 +216,7 @@ public class CustomerController {
         CommodityDto commodityDto = (CommodityDto) returnTable.getSelectionModel().getSelectedItem();
         if (commodityDto != null){
             DataMiddleman.addCommodity(commodityDto);
-            returnCommodities.remove(commodityDto);
+            DataMiddleman.removeReturnCommodity(commodityDto);
         }
     }
     
@@ -226,7 +224,7 @@ public class CustomerController {
     private void onRemoveFromCartButtonClick(){
         CommodityDto commodityDto = (CommodityDto) cartTable.getSelectionModel().getSelectedItem();
         if (commodityDto != null){
-            returnCommodities.add(commodityDto);
+            DataMiddleman.addReturnCommodity(commodityDto);
             DataMiddleman.removeCommodity(commodityDto);
         }
     }
@@ -234,7 +232,7 @@ public class CustomerController {
     @FXML
     private void onAcceptBySellerButtonClick(){
         List<CommodityDto> commodities = DataMiddleman.getCartCommodities().stream().collect(Collectors.toList());
-        List<CommodityDto> commoditiesToReturn = returnCommodities.stream().collect(Collectors.toList());
+        List<CommodityDto> commoditiesToReturn = DataMiddleman.getReturnCommodities().stream().collect(Collectors.toList());
         ReturningOrder order = new ReturningOrder(activeUser.getUuid(), commodities, commoditiesToReturn);
         this.availableSeller = getFreeUserWithRole(Role.SELLER);
         if (this.availableSeller == null){
@@ -248,7 +246,7 @@ public class CustomerController {
                 latestResponse = baseClient.sendMessage(request);
                 if (latestResponse.getData() != null){
                     DataMiddleman.clearCart();
-                    returnCommodities.clear();
+                    DataMiddleman.clearReturnCommodities();
                     DataMiddleman.addReceipt((ReceiptDto) latestResponse.getData());
                 }
                 System.out.println(latestResponse);
@@ -262,7 +260,7 @@ public class CustomerController {
     
     @FXML
     private void onReturnButtonClick(){
-        List<CommodityDto> commoditiesToReturn = returnCommodities.stream().collect(Collectors.toList());
+        List<CommodityDto> commoditiesToReturn = DataMiddleman.getReturnCommodities().stream().collect(Collectors.toList());
         ReturningOrder order = new ReturningOrder(activeUser.getUuid(), null, commoditiesToReturn);
         this.availableDeliverer = getFreeUserWithRole(Role.DELIVERER);
         
@@ -278,7 +276,7 @@ public class CustomerController {
                 baseClient = new BaseClient(availableDeliverer.getHost(), availableDeliverer.getPort());
                 latestResponse = baseClient.sendMessage(request);
                 if (latestResponse.getData() != null){
-                    returnCommodities.clear();
+                    DataMiddleman.clearReturnCommodities();
                 }
                 System.out.println(latestResponse);
                 baseClient.stop();
@@ -339,6 +337,7 @@ public class CustomerController {
                 latestResponse = baseClient.sendMessage(request);
                 if (latestResponse.getData() != null){
                     activeUser = (UserDto) latestResponse.getData();
+                    activeUserIdTextField.setText(activeUser.getUuid().toString());
                     activateUiButtons();
                 }
                 System.out.println(latestResponse);
@@ -361,6 +360,8 @@ public class CustomerController {
         });
         cartCommoditiesTableProperty = new SimpleObjectProperty<>(DataMiddleman.getCartCommodities());
         cartTable.itemsProperty().bindBidirectional(cartCommoditiesTableProperty);
+        returnCommoditiesTableProperty = new SimpleObjectProperty<>(DataMiddleman.getReturnCommodities());
+        returnTable.itemsProperty().bindBidirectional(returnCommoditiesTableProperty);
         receiptsTableProperty = new SimpleObjectProperty<>(DataMiddleman.getReceipts());
         System.out.println(activeUser.getReceipts());
         DataMiddleman.getReceipts().clear();

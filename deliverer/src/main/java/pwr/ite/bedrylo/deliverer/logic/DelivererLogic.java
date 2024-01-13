@@ -8,11 +8,14 @@ import pwr.ite.bedrylo.dataModule.dto.UserDto;
 import pwr.ite.bedrylo.dataModule.model.data.Order;
 import pwr.ite.bedrylo.dataModule.model.data.ReturningOrder;
 import pwr.ite.bedrylo.dataModule.model.request.Request;
+import pwr.ite.bedrylo.dataModule.model.request.enums.KeeperInterfaceActions;
 import pwr.ite.bedrylo.dataModule.model.request.enums.ResponseType;
 import pwr.ite.bedrylo.dataModule.repository.CommodityRepository;
 import pwr.ite.bedrylo.dataModule.repository.UserRepository;
 import pwr.ite.bedrylo.dataModule.repository.implementations.commodity.CommodityRepositoryJPAImplementation;
 import pwr.ite.bedrylo.dataModule.repository.implementations.user.UserRepositoryJPAImplementation;
+import pwr.ite.bedrylo.deliverer.data.DataMiddleman;
+import pwr.ite.bedrylo.networking.BaseClient;
 import pwr.ite.bedrylo.networking.RequestHandler;
 import pwr.ite.bedrylo.networking.Util;
 
@@ -26,6 +29,10 @@ public class DelivererLogic implements RequestHandler {
     @Setter
     @Getter
     private UserDto activeUser;
+    
+    private String keeperHost = "localhost";
+    
+    private int keeperPort = 2137;
     
     private CommodityRepository commodityRepository = new CommodityRepositoryJPAImplementation();
     private UserRepository userRepository = new UserRepositoryJPAImplementation();
@@ -68,11 +75,17 @@ public class DelivererLogic implements RequestHandler {
     }
 
     private void returnOrderFromCustomer(ReturningOrder data) {
-        userRepository.updateBusyByUuid(activeUser.getUuid(), true);
-        List<CommodityDto> commodityDtosToReturn = data.getReturningCommodityDtos();
-        for (CommodityDto commodityDto : commodityDtosToReturn) {
-            commodityRepository.updateInWarehouseByUuid(commodityDto.getUuid(), true);
+        if (data != null) {
+            try {
+                BaseClient client = new BaseClient(keeperHost, keeperPort);
+                Request latestResponse = client.sendMessage(new Request(KeeperInterfaceActions.DELIVERER_RETURN_ORDER, new Object[] {activeUser, data}));
+                System.out.println(latestResponse);
+                DataMiddleman.getCurrentOrder().set(null);
+                client.stop();
+                client = null;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
-        userRepository.updateBusyByUuid(activeUser.getUuid(), false);
     }
 }

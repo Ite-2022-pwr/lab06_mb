@@ -1,16 +1,21 @@
 package pwr.ite.bedrylo.seller.controller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import pwr.ite.bedrylo.dataModule.dto.ReceiptDto;
 import pwr.ite.bedrylo.dataModule.dto.UserDto;
 import pwr.ite.bedrylo.dataModule.model.data.enums.Role;
 import pwr.ite.bedrylo.dataModule.model.request.Request;
+import pwr.ite.bedrylo.dataModule.model.request.enums.CustomerInterfaceActions;
 import pwr.ite.bedrylo.dataModule.model.request.enums.KeeperInterfaceActions;
 import pwr.ite.bedrylo.networking.BaseClient;
 import pwr.ite.bedrylo.networking.BaseServer;
 import pwr.ite.bedrylo.networking.RequestHandler;
+import pwr.ite.bedrylo.seller.data.DataMiddleman;
 import pwr.ite.bedrylo.seller.logic.SellerLogic;
 
 import static javafx.application.Platform.runLater;
@@ -52,6 +57,7 @@ public class SellerController {
     private void onStartButtonClick() {
         infoTextLabel.setText("Seller is running");
         startButton.setDisable(true);
+        observableReceipt();
         host = hostField.getText();
         port = Integer.parseInt(portField.getText());
         Request request = new Request(KeeperInterfaceActions.REGISTER, new UserDto(port, host, Role.SELLER));
@@ -100,4 +106,42 @@ public class SellerController {
             }
         });
     }
+
+    private void observableReceipt() {
+        DataMiddleman.getCurrentReceipt().addListener(new ChangeListener<ReceiptDto>() {
+            @Override
+            public void changed(ObservableValue<? extends ReceiptDto> observable, ReceiptDto oldValue, ReceiptDto newValue) {
+                runLater(() -> {
+                    try {
+                        Request request = new Request(KeeperInterfaceActions.GET_INFO,new Object[]{newValue.getUserUuid(), null});
+                        client = new BaseClient(keeperHost, keeperPort);
+                        latestResponse = client.sendMessage(request);
+                        sendReceiptToCustomer((UserDto) latestResponse.getData());
+                        System.out.println(latestResponse);
+                        client.stop();
+                        client = null;
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
+            
+        });
+    }
+
+    private void sendReceiptToCustomer(UserDto data) {
+        if (data != null) {
+            try {
+                BaseClient client = new BaseClient(data.getHost(), data.getPort());
+                Request latestResponse = client.sendMessage(new Request(CustomerInterfaceActions.SELLER_RETURN_RECEIPT, DataMiddleman.getCurrentReceipt().get()));
+                System.out.println(latestResponse);
+                client.stop();
+                client = null;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+
 }

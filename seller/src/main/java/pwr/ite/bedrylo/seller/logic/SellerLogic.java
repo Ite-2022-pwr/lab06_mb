@@ -9,6 +9,7 @@ import pwr.ite.bedrylo.dataModule.dto.UserDto;
 import pwr.ite.bedrylo.dataModule.model.data.Receipt;
 import pwr.ite.bedrylo.dataModule.model.data.ReturningOrder;
 import pwr.ite.bedrylo.dataModule.model.request.Request;
+import pwr.ite.bedrylo.dataModule.model.request.enums.KeeperInterfaceActions;
 import pwr.ite.bedrylo.dataModule.model.request.enums.ResponseType;
 import pwr.ite.bedrylo.dataModule.repository.CommodityRepository;
 import pwr.ite.bedrylo.dataModule.repository.ReceiptRepository;
@@ -18,8 +19,10 @@ import pwr.ite.bedrylo.dataModule.repository.implementations.receipt.ReceiptRepo
 import pwr.ite.bedrylo.dataModule.repository.implementations.user.UserRepositoryJPAImplementation;
 import pwr.ite.bedrylo.dataModule.service.CommodityService;
 import pwr.ite.bedrylo.dataModule.service.ReceiptService;
+import pwr.ite.bedrylo.networking.BaseClient;
 import pwr.ite.bedrylo.networking.RequestHandler;
 import pwr.ite.bedrylo.networking.Util;
+import pwr.ite.bedrylo.seller.data.DataMiddleman;
 
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
@@ -31,13 +34,10 @@ public class SellerLogic implements RequestHandler {
     @Setter
     private UserDto activeUser;
     
-    UserRepository userRepository = new UserRepositoryJPAImplementation();
+    private String keeperHost = "localhost";
     
-    CommodityRepository commodityRepository = new CommodityRepositoryJPAImplementation();
-    CommodityService commodityService = CommodityService.getInstance();
+    private int keeperPort = 2137;
     
-    ReceiptRepository receiptRepository = new ReceiptRepositoryJPAImplementation();
-    ReceiptService receiptService = ReceiptService.getInstance();
     
     @SneakyThrows
     @Override
@@ -82,17 +82,18 @@ public class SellerLogic implements RequestHandler {
     }
 
     private ReceiptDto acceptOrderFromCustomer(ReturningOrder data) {
-        userRepository.updateBusyByUuid(activeUser.getUuid(), true);
         if (data != null) {
-            for (CommodityDto returnCommodities : data.getReturningCommodityDtos()) {
-                commodityRepository.updateInWarehouseByUuid(returnCommodities.getUuid(), true);
+            try {
+                BaseClient client = new BaseClient(keeperHost, keeperPort);
+                Request latestResponse = client.sendMessage(new Request(KeeperInterfaceActions.SELLER_RETURN_ORDER, new Object[] {activeUser, data}));
+                System.out.println(latestResponse);
+                DataMiddleman.getCurrentReceipt().set((ReceiptDto) latestResponse.getData());
+                client.stop();
+                client = null;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
-            ReceiptDto receiptDto = new ReceiptDto(data.getUserUuid(), data.getCommodityDtos());
-            receiptRepository.save(receiptService.createReceiptFromDto(receiptDto));
-            userRepository.updateBusyByUuid(activeUser.getUuid(), true);
-            return receiptDto;
         }
-        userRepository.updateBusyByUuid(activeUser.getUuid(), false);
         return null;
     }
 }

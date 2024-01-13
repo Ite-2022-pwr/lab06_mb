@@ -12,6 +12,10 @@ public class DataMiddleman {
     private static ObservableList<CommodityDto> cartCommodities = FXCollections.observableArrayList();
 
     private static ObservableList<ReceiptDto> receipts = FXCollections.observableArrayList();
+
+    private static ObservableList<CommodityDto> returnCommodities = FXCollections.observableArrayList();
+    
+    
     public static ObservableList<CommodityDto> getCartCommodities() {
         return cartCommodities;
     }
@@ -42,6 +46,22 @@ public class DataMiddleman {
     
     public static void clearReceipts(){
         receipts.clear();
+    }
+    
+    public static ObservableList<CommodityDto> getReturnCommodities() {
+        return returnCommodities;
+    }
+    
+    public static void addReturnCommodity(CommodityDto commodity){
+        returnCommodities.add(commodity);
+    }
+    
+    public static void removeReturnCommodity(CommodityDto commodity){
+        returnCommodities.remove(commodity);
+    }
+    
+    public static void clearReturnCommodities(){
+        returnCommodities.clear();
     }
     
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import pwr.ite.bedrylo.customer.data.DataMiddleman;
 import pwr.ite.bedrylo.dataModule.dto.CommodityDto;
+import pwr.ite.bedrylo.dataModule.dto.ReceiptDto;
 import pwr.ite.bedrylo.dataModule.model.data.Order;
 import pwr.ite.bedrylo.dataModule.model.request.Request;
 import pwr.ite.bedrylo.dataModule.model.request.enums.ResponseType;
@@ -34,10 +35,7 @@ public class CustomerServerLogic implements RequestHandler {
     private static CommodityRepositoryJPAImplementation commodityRepository;
     private static ReceiptService receiptService;
     private static ReceiptRepositoryJPAImplementation receiptRepository;
-
-    @Getter
-    @Setter
-    private ObservableList<CommodityDto> cartCommodities = FXCollections.observableArrayList(DataMiddleman.getCartCommodities());
+    
     
     
     
@@ -81,8 +79,12 @@ public class CustomerServerLogic implements RequestHandler {
                     response = new Request(ResponseType.PUT_ORDER, request.getData());
                     break;
                 case "SELLER_RETURN_RECEIPT":
-                    addReceiptToList((Order)request.getData());
-                    System.out.println("SELLER_RETURN_RECEIPT");
+                    if (request.getData() != null) {
+                        addReceiptToList((ReceiptDto)request.getData());
+                        System.out.println("SELLER_RETURN_RECEIPT");
+                        DataMiddleman.clearCart();
+                        DataMiddleman.clearReturnCommodities();
+                    }
                     break;
                 default:
                     System.out.println("nieznana akcja");
@@ -95,7 +97,9 @@ public class CustomerServerLogic implements RequestHandler {
         }
     }
 
-    private void addReceiptToList(Order data) {
+    private void addReceiptToList(ReceiptDto data) {
+        DataMiddleman.getReceipts().add(data);
+        System.out.println("addReceiptToList");
     }
 
     private void putOrderToCart(Order data) {
